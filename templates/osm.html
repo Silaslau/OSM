@@ -412,7 +412,14 @@
     ];
 
     // 发送数据到后端
-    fetch('http://127.0.0.1:5001/saveData', {
+    // fetch('http://127.0.0.1:5001/saveData', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(dataToSend)
+    // })
+    fetch('https://osm-53rx.onrender.com', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
