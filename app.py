@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import sqlite3
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')  
 CORS(app)  # 启用 CORS，允许跨域访问
 
 # 数据库连接函数
@@ -80,12 +80,11 @@ def save_data():
 
 @app.route('/')
 def index():
-    return render_template('index.html')  # 渲染 index.html 页面
+    return render_template('index.html')  # 渲染位于 OSM_EVALUATION 目录下的 index.html
 
 @app.route('/osm')
 def osm():
-    return render_template('osm.html')  # 渲染 osm.html 页面
-
+    return render_template('/osm.html')  # 渲染位于 templates 目录下的 osm.html
 
 if __name__ == '__main__':
     init_db()  # 初始化数据库
