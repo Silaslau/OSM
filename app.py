@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import sqlite3
 
@@ -77,6 +77,15 @@ def save_data():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/')
+def index():
+    return render_template('index.html')  # 渲染 index.html 页面
+
+@app.route('/osm')
+def osm():
+    return render_template('osm.html')  # 渲染 osm.html 页面
+
 
 if __name__ == '__main__':
     init_db()  # 初始化数据库
