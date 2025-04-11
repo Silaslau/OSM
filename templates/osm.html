@@ -377,68 +377,70 @@
 
     // 提交所有数据的函数
     function submitAllData() {
-    // 获取所有示例的数据
-    const dataToSend = [
-        {
-            exampleId: 1,
-            completeness: document.querySelector(`#completeness-1 .option-box.selected`)?.textContent,
-            correctness: document.querySelector(`#correctness-1 .option-box.selected`)?.textContent,
-            accuracy: document.querySelector(`#accuracy-1 .option-box.selected`)?.textContent
-        },
-        {
-            exampleId: 2,
-            completeness: document.querySelector(`#completeness-2 .option-box.selected`)?.textContent,
-            correctness: document.querySelector(`#correctness-2 .option-box.selected`)?.textContent,
-            accuracy: document.querySelector(`#accuracy-2 .option-box.selected`)?.textContent
-        },
-        {
-            exampleId: 3,
-            completeness: document.querySelector(`#completeness-3 .option-box.selected`)?.textContent,
-            correctness: document.querySelector(`#correctness-3 .option-box.selected`)?.textContent,
-            accuracy: document.querySelector(`#accuracy-3 .option-box.selected`)?.textContent
-        },
-        {
-            exampleId: 4,
-            completeness: document.querySelector(`#completeness-4 .option-box.selected`)?.textContent,
-            correctness: document.querySelector(`#correctness-4 .option-box.selected`)?.textContent,
-            accuracy: document.querySelector(`#accuracy-4 .option-box.selected`)?.textContent
-        },
-        {
-            exampleId: 5,
-            completeness: document.querySelector(`#completeness-5 .option-box.selected`)?.textContent,
-            correctness: document.querySelector(`#correctness-5 .option-box.selected`)?.textContent,
-            accuracy: document.querySelector(`#accuracy-5 .option-box.selected`)?.textContent
-        }
-    ];
+      // 获取所有示例的数据
+      const dataToSend = [
+          {
+              exampleId: 1,
+              completeness: document.querySelector(`#completeness-1 .option-box.selected`)?.textContent,
+              correctness: document.querySelector(`#correctness-1 .option-box.selected`)?.textContent,
+              accuracy: document.querySelector(`#accuracy-1 .option-box.selected`)?.textContent
+          },
+          {
+              exampleId: 2,
+              completeness: document.querySelector(`#completeness-2 .option-box.selected`)?.textContent,
+              correctness: document.querySelector(`#correctness-2 .option-box.selected`)?.textContent,
+              accuracy: document.querySelector(`#accuracy-2 .option-box.selected`)?.textContent
+          },
+          {
+              exampleId: 3,
+              completeness: document.querySelector(`#completeness-3 .option-box.selected`)?.textContent,
+              correctness: document.querySelector(`#correctness-3 .option-box.selected`)?.textContent,
+              accuracy: document.querySelector(`#accuracy-3 .option-box.selected`)?.textContent
+          },
+          {
+              exampleId: 4,
+              completeness: document.querySelector(`#completeness-4 .option-box.selected`)?.textContent,
+              correctness: document.querySelector(`#correctness-4 .option-box.selected`)?.textContent,
+              accuracy: document.querySelector(`#accuracy-4 .option-box.selected`)?.textContent
+          },
+          {
+              exampleId: 5,
+              completeness: document.querySelector(`#completeness-5 .option-box.selected`)?.textContent,
+              correctness: document.querySelector(`#correctness-5 .option-box.selected`)?.textContent,
+              accuracy: document.querySelector(`#accuracy-5 .option-box.selected`)?.textContent
+          }
+      ];
 
-    // 发送数据到后端
-    // fetch('http://127.0.0.1:5001/saveData', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(dataToSend)
-    // })
-    fetch('https://osm-53rx.onrender.com', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataToSend)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('提交失败：' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(result => {
-        alert('所有数据已成功提交');
-    })
-    .catch(error => {
-        alert('提交出现错误：' + error.message);
-    });
-}
+      // 发送数据到后端
+      // fetch('http://127.0.0.1:5001/saveData', {
+      //     method: 'POST',
+      //     headers: {
+      //         'Content-Type': 'application/json'
+      //     },
+      //     body: JSON.stringify(dataToSend)
+      // })
+      fetch('https://osm-53rx.onrender.com/saveData', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dataToSend)
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('提交失败：' + response.statusText);
+          }
+          return response.json();
+      })
+      .then(result => {
+          alert('所有数据已成功提交');
+          console.log(result);  // 可以查看返回的数据结构
+      })
+      .catch(error => {
+          alert('提交出现错误：' + error.message);
+          console.error(error);
+      });
+    }
   </script>
 </body>
 </html>
