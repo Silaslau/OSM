@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>OSM 信息描述评价</title>
+  <style>
+    .container {
+      width: 800px;
+      margin: 20px auto;
+      font-family: sans-serif;
+    }
+
+    .example-card {
+      border: 1px solid #ccc;
+      padding: 16px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+
+    .example-card h2 {
+      margin-top: 0;
+    }
+
+    .example-card img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .example-description {
+      margin-bottom: 10px;
+    }
+
+    label {
+      margin-right: 8px;
+      font-weight: bold;
+    }
+
+    select {
+      margin-right: 16px;
+    }
+
+    button {
+      padding: 6px 16px;
+      cursor: pointer;
+    }
+    .image-row {
+      display: flex;
+      gap: 10px; /* 图片之间的间距，可自调 */
+    }
+
+    .image-row img {
+      max-width: 100%;
+      height: auto;
+      flex: 1; /* 图片平均占用空间 */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>OSM 信息描述评价示例</h1>
+
+    <!-- ================== 示例 1 ================== -->
+    <div class="example-card" id="example-1">
+      <h2>示例 1</h2>
+      <img src="Jockey_hall_S.JPG" alt="Jockey hall"/>
+      <img src="Jockey_hall_S_up.jpg" alt="Jockey hall up"/>
+      <img src="Jockey_hall_S_annoted.jpg" alt="Jockey hall annoted"/>
+      <div class="example-description">
+        <strong> Picture Description: </strong> <br>
+        <strong> 1.	Vegetation (Forest) – Hill Slope:</strong> <br>
+          Positioned between the left 70 to left 30 degree range, a green hill covered with vegetation and shrubs is visible along the slope beside the road. This natural feature lies approximately 10 to 30 meters from the viewpoint. <br>
+        <strong> 2.	Vegetation (Forest) – Hilly Terrain:</strong> <br>
+          Spanning the right 30 to right 70 degree range, this area features small patches of trees, shrubs, and uneven hilly terrain. It is located at an approximate distance of 15 to 50 meters from the viewer. <br>
+        <strong>3.	Jockey Club Global Graduate Tower:</strong> <br>
+          Located between the left 70 to left 30 degree range, the Jockey Club Global Graduate Tower is a multi-story residential building. It stands roughly 30 to 50 meters away from the viewpoint. <br>
+        <strong>4.	Jockey Club i-Village:</strong> <br>
+          Situated between the left 20 to right 10 degree range, this large, multi-story building is finished in blue-gray and features numerous windows. It is approximately 30 to 50 meters from the viewer. <br>
+        <strong>5.	HKUST Lee Shau Kee Business Building:</strong> <br>
+          Found between the right 20 to right 70 degree range, this modern structure is clad in glass panels and surrounded by trees. It stands about 30 to 60 meters from the viewpoint. <br>
+      </div>
+
+      <div class="options">
+        <label for="completeness-1">描述完整度：</label>
+        <select id="completeness-1">
+          <option value="">请选择</option>
+          <option value="很不全">很不全</option>
+          <option value="不全">不全</option>
+          <option value="大部分完整">大部分完整</option>
+          <option value="全部完整">全部完整</option>
+        </select>
+
+        <label for="correctness-1">正确性：</label>
+        <select id="correctness-1">
+          <option value="">请选择</option>
+          <option value="错">错</option>
+          <option value="多半错">多半错</option>
+          <option value="多半对">多半对</option>
+          <option value="对">对</option>
+        </select>
+        <button onclick="submitData(1)">提交</button>
+      </div>
+    </div>
+
+    <!-- ================== 示例 2 ================== -->
+    <div class="example-card" id="example-2">
+      <h2>示例 2</h2>
+      <img src="Shaw_E.JPG" alt="Shaw"/>
+      <img src="Shaw_E_up.jpg" alt="Shaw_up"/>
+      <img src="Shaw_E_annoted.jpg" alt="Shaw_E_annoted"/>
+      <div class="example-description">
+        <strong> 1. Cheng Yu Tung Building </strong> <br>
+          Positioned prominently from left 80 to left 30 degrees, the Cheng Yu Tung Building stands as a multi-story rectangular structure. Its gray facade is accented by visible windows, offering a glimpse of a modern and functional design. The building’s name is clearly labeled, emphasizing its identity within the campus environment. Situated approximately 67 meters away, it serves as a notable landmark in this area of the campus.<br>
+        <strong> 2. Shaw Auditorium </strong> <br>
+          Located between right 10 and right 70 degrees, Shaw Auditorium boasts a stunning contemporary design with its curved silhouette. The building’s white exterior adds to its modern aesthetic, making it stand out among the surrounding features. Its placement, approximately 22 meters away, creates an engaging visual contrast with other structures in the vicinity.
+      </div>
+
+      <div class="options">
+        <label for="completeness-2">描述完整度：</label>
+        <select id="completeness-2">
+          <option value="">请选择</option>
+          <option value="很不全">很不全</option>
+          <option value="不全">不全</option>
+          <option value="大部分完整">大部分完整</option>
+          <option value="全部完整">全部完整</option>
+        </select>
+
+        <label for="correctness-2">正确性：</label>
+        <select id="correctness-2">
+          <option value="">请选择</option>
+          <option value="错">错</option>
+          <option value="多半错">多半错</option>
+          <option value="多半对">多半对</option>
+          <option value="对">对</option>
+        </select>
+        <button onclick="submitData(2)">提交</button>
+      </div>
+    </div>
+
+    <!-- ================== 示例 3 ================== -->
+    <div class="example-card" id="example-3">
+      <h2>示例 3</h2>
+      <img src="Staff_15_160.JPG" alt="Staff_hall_1"/>
+      <img src="Staff_15_160_up.jpg" alt="Staff_hall_1_up"/>
+      <img src="Staff_15_160_annoted.jpg" alt="Staff_hall_1_annoted"/>
+      <div class="example-description">
+        <strong>1.	HKUST Senior Staff Quarters Block 16:</strong> <br>
+        Positioned within the left 70 to left 34 degree range, this tall white residential building stands prominently in the scene. Its visual features and proximity match those of Photo Feature 5, indicating an approximate distance similar to nearby structures. <br>
+        <strong>2.	Leisure Garden:</strong> <br>
+        Located between the left 70 to left 34 degree range, the Leisure Garden is characterized by landscaped shrubbery and greenery. It corresponds to Photo Feature 2, which displays similar plant features and is situated at a comparable distance.
+      </div>
+
+      <div class="options">
+        <label for="completeness-1">描述完整度：</label>
+        <select id="completeness-1">
+          <option value="">请选择</option>
+          <option value="很不全">很不全</option>
+          <option value="不全">不全</option>
+          <option value="大部分完整">大部分完整</option>
+          <option value="全部完整">全部完整</option>
+        </select>
+
+        <label for="correctness-1">正确性：</label>
+        <select id="correctness-1">
+          <option value="">请选择</option>
+          <option value="错">错</option>
+          <option value="多半错">多半错</option>
+          <option value="多半对">多半对</option>
+          <option value="对">对</option>
+        </select>
+        <button onclick="submitData(1)">提交</button>
+      </div>
+    </div>
+
+    <!-- ================== 示例 4 ================== -->
+    <div class="example-card" id="example-4">
+      <h2>示例 4</h2>
+      <img src="Staff_hall_110.JPG" alt="Staff_hall_2"/>
+      <img src="Staff_hall_110_up.jpg" alt="Staff_hall_2_up"/>
+      <img src="Staff_hall_110_annoted.jpg" alt="Staff_hall_2_annoted"/>
+      <div class="example-description">
+        <strong>1.	Dense Trees (Natural Wood):</strong> <br>
+        Located between the left 70 to left 30 degree range, this group of large green trees forms a natural canopy. The dense foliage is situated at an approximate distance of 10 to 50 meters from the viewpoint.<br>
+        <strong>2.	HKUST Senior Staff Quarters Block 15:</strong> <br>
+        Positioned between the center 10 to left 10 degree range, this cluster of beige-colored residential buildings is partially visible beyond the trees. It lies approximately 50 to 100 meters away from the viewer.<br>
+        <strong>3.	HKUST Senior Staff Quarters Block 12:</strong> <br>
+        Spanning the right 70 to right 10 degree range, this multistory residential building features a blue and white exterior with visible balconies and integrated parking. It is located approximately 10 to 50 meters from the viewpoint.
+      </div>
+
+      <div class="options">
+        <label for="completeness-1">描述完整度：</label>
+        <select id="completeness-1">
+          <option value="">请选择</option>
+          <option value="很不全">很不全</option>
+          <option value="不全">不全</option>
+          <option value="大部分完整">大部分完整</option>
+          <option value="全部完整">全部完整</option>
+        </select>
+
+        <label for="correctness-1">正确性：</label>
+        <select id="correctness-1">
+          <option value="">请选择</option>
+          <option value="错">错</option>
+          <option value="多半错">多半错</option>
+          <option value="多半对">多半对</option>
+          <option value="对">对</option>
+        </select>
+        <button onclick="submitData(1)">提交</button>
+      </div>
+    </div>
+
+    <!-- ================== 示例 5 ================== -->
+    <div class="example-card" id="example-5">
+      <h2>示例 5</h2>
+      <img src="Tennis_5_E.JPG" alt="Tennis_5_E"/>
+      <img src="Tennis_5_E_up.jpg" alt="Tennis_5_E_up"/>
+      <img src="Tennis_5_E_annoted.jpg" alt="Tennis_5_E_annoted"/>
+
+      <div class="example-description">
+        <strong> 1. Cheng Yu Tung Building: </strong>  <br>
+        Positioned at the center of the photo, the Cheng Yu Tung Building is a beige structure, likely serving institutional or commercial purposes. Its proximity to the viewer is estimated to be around 63 meters, blending seamlessly with the surrounding environment.<br>
+        <strong> 2. Tennis Courts No.5 & 6: </strong> <br>
+        Located at the center-right of the photo, these sports courts are enclosed by green fencing, suggesting spaces designated for leisure activities such as tennis or basketball. Situated just 1 meter away, they contribute a dynamic and recreational feel to the scene.<br>
+        <strong> 3. Shaw Auditorium: </strong> <br>
+        Positioned at the far right of the photo, the Shaw Auditorium is characterized by its large size and distinctive curved rooftops. It may serve as a sports facility or auditorium, standing out boldly within the landscape at an approximate distance of 61 meters.
+      </div>
+
+      <div class="options">
+        <label for="completeness-1">描述完整度：</label>
+        <select id="completeness-1">
+          <option value="">请选择</option>
+          <option value="很不全">很不全</option>
+          <option value="不全">不全</option>
+          <option value="大部分完整">大部分完整</option>
+          <option value="全部完整">全部完整</option>
+        </select>
+
+        <label for="correctness-1">正确性：</label>
+        <select id="correctness-1">
+          <option value="">请选择</option>
+          <option value="错">错</option>
+          <option value="多半错">多半错</option>
+          <option value="多半对">多半对</option>
+          <option value="对">对</option>
+        </select>
+        <button onclick="submitData(1)">提交</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /**
+     * 提交数据到后台的示例函数
+     * @param {number} exampleId - 示例卡片的 ID，用来区分是哪一条数据
+     */
+    function submitData(exampleId) {
+      // 1. 获取用户选择的值
+      const completenessSelect = document.getElementById(`completeness-${exampleId}`);
+      const correctnessSelect = document.getElementById(`correctness-${exampleId}`);
+
+      const completenessValue = completenessSelect.value;
+      const correctnessValue = correctnessSelect.value;
+
+      // 如果需要，也可以获取文字描述内容（若有编辑区等）。
+      // 这里只是简单示例，假设文字描述是固定不变的，也可以在后台数据库中记录。
+
+      // 2. 构造要发送的数据
+      const dataToSend = {
+        exampleId: exampleId,
+        completeness: completenessValue,
+        correctness: correctnessValue
+      };
+
+      // 3. 通过 fetch 或 Ajax 调用后台接口
+      // 这里用 fetch POST 到 /saveData 作为示例
+      fetch('/saveData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToSend)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('提交失败：' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(result => {
+        // 提交成功后的反馈
+        alert(`示例 ${exampleId} 数据已提交，服务器返回：${JSON.stringify(result)}`);
+      })
+      .catch(error => {
+        alert('提交出现错误：' + error.message);
+      });
+    }
+  </script>
+</body>
+</html>
