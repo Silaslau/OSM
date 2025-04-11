@@ -7,12 +7,18 @@ CORS(app)  # 启用 CORS，允许跨域访问
 
 # 数据库连接函数
 def get_db():
+    """
+    连接到 SQLite 数据库，并返回连接对象
+    """
     conn = sqlite3.connect('osm_data.db')  # 连接到数据库（如果没有，则自动创建）
     conn.row_factory = sqlite3.Row  # 允许通过列名访问数据
     return conn
 
 # 初始化数据库表（如果没有）
 def init_db():
+    """
+    初始化数据库表（如果没有则创建）
+    """
     with get_db() as conn:
         cursor = conn.cursor()
         cursor.execute('''CREATE TABLE IF NOT EXISTS feedback (
@@ -26,6 +32,9 @@ def init_db():
 
 # 插入数据到数据库
 def insert_data(example_id, completeness, correctness, accuracy):
+    """
+    将数据插入到 feedback 表中
+    """
     with get_db() as conn:
         cursor = conn.cursor()
         cursor.execute('''
@@ -37,10 +46,13 @@ def insert_data(example_id, completeness, correctness, accuracy):
 # 路由：接收 POST 请求并保存数据
 @app.route('/saveData', methods=['POST'])
 def save_data():
+    """
+    处理保存数据的请求，将数据保存到数据库中
+    """
     try:
-        data = request.get_json()
+        data = request.get_json()  # 获取 POST 请求中的 JSON 数据
         
-        # 验证传入的数据格式是否正确
+        # 验证数据格式是否正确
         if not isinstance(data, list):  # 确保数据是一个列表
             return jsonify({'error': 'Invalid data format. Expected an array of data.'}), 400
         
