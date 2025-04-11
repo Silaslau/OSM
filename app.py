@@ -1,67 +1,74 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-import sqlite3
-import os  # ✅ 添加这个以支持 Render 平台动态端口
+import psycopg2
+import os
 
-app = Flask(__name__, template_folder='.')  
-CORS(app)  # ✅ 允许跨域访问
+app = Flask(__name__, template_folder='.')
+CORS(app)
 
-# -------------------- 数据库连接 --------------------
+# 从环境变量中读取数据库地址（Render 自动提供）
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
+# 建立数据库连接
 def get_db():
-    conn = sqlite3.connect('osm_data.db')
-    conn.row_factory = sqlite3.Row
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     return conn
 
+# 初始化表
 def init_db():
     with get_db() as conn:
-        cursor = conn.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS feedback (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                example_id INTEGER,
-                completeness TEXT,
-                correctness TEXT,
-                accuracy TEXT
-            )
-        ''')
-        conn.commit()
+        with conn.cursor() as cur:
+            cur.execute('''
+                CREATE TABLE IF NOT EXISTS feedback (
+                    id SERIAL PRIMARY KEY,
+                    example_id INTEGER,
+                    completeness TEXT,
+                    correctness TEXT,
+                    accuracy TEXT
+                )
+            ''')
+            conn.commit()
 
+# 插入数据
 def insert_data(example_id, completeness, correctness, accuracy):
     with get_db() as conn:
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO feedback (example_id, completeness, correctness, accuracy)
-            VALUES (?, ?, ?, ?)
-        ''', (example_id, completeness, correctness, accuracy))
-        conn.commit()
-
-# -------------------- 接口 --------------------
+        with conn.cursor() as cur:
+            cur.execute('''
+                INSERT INTO feedback (example_id, completeness, correctness, accuracy)
+                VALUES (%s, %s, %s, %s)
+            ''', (example_id, completeness, correctness, accuracy))
+            conn.commit()
 
 @app.route('/saveData', methods=['POST'])
 def save_data():
     try:
         data = request.get_json()
         if not isinstance(data, list):
-            return jsonify({'error': 'Invalid data format. Expected an array of data.'}), 400
-        
-        for example in data:
-            if 'exampleId' not in example or 'completeness' not in example or \
-               'correctness' not in example or 'accuracy' not in example:
-                return jsonify({'error': 'Missing required fields in data.'}), 400
+            return jsonify({'error': 'Invalid data format'}), 400
 
+        for item in data:
             insert_data(
-                example['exampleId'],
-                example['completeness'],
-                example['correctness'],
-                example['accuracy']
+                item['exampleId'],
+                item['completeness'],
+                item['correctness'],
+                item['accuracy']
             )
-
         return jsonify({'message': '所有数据已成功保存', 'receivedData': data}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# -------------------- 页面路由（可选） --------------------
+@app.route('/viewData')
+def view_data():
+    try:
+        with get_db() as conn:
+            with conn.cursor() as cur:
+                cur.execute("SELECT * FROM feedback")
+                rows = cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+                results = [dict(zip(columns, row)) for row in rows]
+                return jsonify(results)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/')
 def index():
@@ -69,11 +76,9 @@ def index():
 
 @app.route('/osm')
 def osm():
-    return render_template('templates/osm.html')  # ✅ 修正路径（GitHub Pages 只用静态文件就够）
-
-# -------------------- 启动服务 --------------------
+    return render_template('templates/osm.html')
 
 if __name__ == '__main__':
     init_db()
-    port = int(os.environ.get("PORT", 5000))  # ✅ Render 会提供环境变量 PORT
+    port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
