@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="3;url=osm.html">
+  <title>Redirecting...</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    h1 {
+      color: #4CAF50;
+    }
+    p {
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>页面正在加载...</h1>
+  <p>如果您的浏览器没有自动跳转，您可以点击以下链接：</p>
+  <p><a href="osm.html">点击这里进入 OSM 页面</a></p>
+
+  <script>
+    // 在页面加载时，自动跳转到 osm.html
+    setTimeout(function() {
+      window.location.href = 'osm.html';
+    }, 3000); // 3秒后跳转
+  </script>
+</body>
+</html>
