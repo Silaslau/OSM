@@ -1,40 +1,77 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>OSM 信息描述评价</title>
+  <title>OSM Information Description Evaluation</title>
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f3f3f3;
+    }
+
     .container {
-      width: 1600px;
+      max-width: 1600px;
       margin: 20px auto;
-      font-family: sans-serif;
+      background-color: #f3f3f3;
+      padding: 0 20px;
+    }
+
+    .header-title {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #333;
+      letter-spacing: 1px;
     }
 
     .example-card {
       border: 1px solid #ccc;
       padding: 16px;
-      margin-bottom: 20px;
-      border-radius: 4px;
+      margin-bottom: 40px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     .example-card h2 {
       margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 20px;
+      color: #444;
     }
 
     .example-card img {
       max-width: 100%;
       height: auto;
       display: block;
-      margin-bottom: 10px;
+      border-radius: 8px;
     }
 
     .example-description {
       margin-bottom: 10px;
     }
 
-    label {
-      margin-right: 8px;
-      font-weight: bold;
+    .image-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .image-row img {
+      max-width: 50%;
+      flex: 1;
+      border: 1px solid #ccc;
+    }
+
+    .text-box {
+      margin-bottom: 10px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .text-box strong {
+      color: #444;
     }
 
     .options {
@@ -43,63 +80,120 @@
 
     .option-group {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #555;
     }
 
     .option-box {
-      padding: 6px 16px;
+      padding: 10px 16px;
       border: 1px solid #ccc;
       border-radius: 4px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, color 0.3s;
+      background-color: #fafafa;
+      font-size: 14px;
+    }
+
+    .option-box:hover {
+      background-color: #e0e0e0;
     }
 
     .option-box.selected {
       background-color: #4CAF50;
       color: white;
+      border-color: #4CAF50;
     }
 
-    .option-box:hover {
-      background-color: #ddd;
-    }
-
-    button {
-      padding: 6px 16px;
+    #submitBtn {
+      display: block;
+      margin: 0 auto 40px;
+      padding: 10px 20px;
       cursor: pointer;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      background-color: #333;
+      color: #fff;
+      transition: background-color 0.3s;
     }
 
-    /* 用于显示图片并排 */
-    .image-row {
-      display: flex;
-      gap: 10px; /* 图片之间的间距，可自调 */
-      margin-bottom: 20px; /* 给图片之间添加间距 */
+    #submitBtn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
     }
 
-    .image-row img {
-      max-width: 50%;
-      height: auto;
-      flex: 1; /* 图片平均占用空间 */
+    #submitBtn:hover:not(:disabled) {
+      background-color: #555;
     }
 
-    /* 用于容纳两个文字框并排 */
-    .text-container {
-      display: flex;
-      justify-content: space-between; /* 让文字框平行排列 */
-      gap: 20px; /* 文字框之间的间距 */
-    }
-
-    .text-box {
-      flex: 1; /* 每个文字框占用相等的空间 */
+    /* Add responsiveness */
+    @media (max-width: 768px) {
+      .image-row {
+        flex-direction: column;
+      }
+      .image-row img {
+        max-width: 100%;
+        margin-bottom: 10px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>OSM 信息描述评价</h1>
+    <h1 class="header-title">OSM Information Description Evaluation</h1>
 
-    <!-- ================== 示例 1 ================== -->
+    <div class="example-card" id="instruction">
+      <h2>Instruction</h2>
+      <p>
+        The goal of our model is to <strong> match each photo with the corresponding OpenStreetMap (OSM) elements </strong> as shown in the GIS map. Therefore, we only focus on <strong> OSM objects </strong> — those features that can also be observed on the map. 
+      </p>
+      <p>
+        In this evaluation, there are <strong> five </strong> examples. Each example features two pictures and a corresponding text description:
+      </p>
+      <ul>
+        <li>
+          <strong>Left Picture (Real Photo):</strong> Shows the actual scene with bounding boxes drawn around the detected objects.
+        </li>
+        <li>
+          <strong>Right Picture (GIS Map):</strong> Displays the shooting location on a map, with an arrow indicating the direction from which the left photo was taken. 
+        </li>
+        <li>
+        <strong> Picture description: </strong> Describes the objects detected in the left photo (with bounding boxes) that can also be observed in the right map.
+        </li>
+      </ul>
+      <p>
+        
+      </p>
+      <p>
+        For each example, please answer the following three questions:
+      </p>
+      <ol>
+        <li>
+          <strong>How is the amount of labeled or described content?</strong><br>
+          Check whether all visible objects in the photo are included and clearly marked, without important elements missing or irrelevant items added.
+        </li>
+        <li>
+          <strong>How accurate is the textual description?</strong><br>
+          Determine whether each object is described correctly in terms of its appearance, location, or function.
+        </li>
+        <li>
+          <strong>How accurate are the positions of the image annotations (bounding boxes)?</strong><br>
+          Assess whether each bounding box is placed correctly around the intended object, accurately reflecting its location and boundaries.
+        </li>
+      </ol>
+    </div>
+
+    <!-- ================== Example 1 ================== -->
     <div class="example-card" id="example-1">
-      <h2>示例 1: Jockey Club Hall </h2>
+      <h2>Example 1: Jockey Club Hall</h2>
       <div class="image-row">
         <img src="../images/Jockey_hall_S_annoted.jpg" alt="Jockey hall annoted"/>
         <img src="../images/Jockey_hall_S_up.jpg" alt="Jockey hall up"/>
@@ -108,47 +202,50 @@
       <div class="text-box">
         <strong>Picture Description:</strong> <br>
         <strong>1. Forest-Covered Hill (Left Side):</strong> <br>
-        Located between the left 70 to left 30-degree angle from our viewpoint, you’ll see a gently sloping hill dressed in lush green vegetation and shrubs. This area adds a beautiful, natural contrast to the man-made structures ahead. The forest appears quite close—just 10 to 30 meters away—creating a serene and calming edge to the scene. <br>
+        Located between the left 70 to left 30-degree angle from our viewpoint, you’ll see a gently sloping hill dressed in lush green vegetation and shrubs. This area adds a beautiful, natural contrast to the man-made structures ahead. The forest appears quite close—just 10 to 30 meters away—creating a serene and calming edge to the scene. <br><br>
         <strong>2. Forest Patch on Hilly Terrain (Right Side):</strong> <br>
-        Shifting your gaze now to the right 30 to right 70-degree area, you’ll notice smaller patches of trees and shrubs, resting on undulating, hilly ground. This section of forest feels a bit more scattered and wild compared to the slope on the left. It’s situated slightly farther—around 15 to 50 meters from us—contributing to the layered depth of the landscape. <br>
+        Shifting your gaze now to the right 30 to right 70-degree area, you’ll notice smaller patches of trees and shrubs, resting on undulating, hilly ground. This section of forest feels a bit more scattered and wild compared to the slope on the left. It’s situated slightly farther—around 15 to 50 meters from us—contributing to the layered depth of the landscape. <br><br>
         <strong>3. Jockey Club Global Graduate Tower:</strong> <br>
-        Still on the left side, within the 70 to 30-degree viewing angle, stands the Jockey Club Global Graduate Tower. This multi-story residential building is designed to accommodate postgraduate students. With a prominent, structured appearance, it’s located approximately 30 to 50 meters away and rises above the greenery, marking a transition from natural to urban. <br>
+        Still on the left side, within the 70 to 30-degree viewing angle, stands the Jockey Club Global Graduate Tower. This multi-story residential building is designed to accommodate postgraduate students. With a prominent, structured appearance, it’s located approximately 30 to 50 meters away and rises above the greenery, marking a transition from natural to urban. <br><br>
         <strong>4. Jockey Club i-Village:</strong> <br>
-        Moving closer to the center of our view, from left 20 to right 10 degrees, we come across the Jockey Club i-Village. This is a large, multi-story building distinguished by its blue-gray exterior and an array of windows that hint at its residential or institutional use. Positioned about 30 to 50 meters away, its modern design gives it a commanding presence in this part of the scene. <br>
+        Moving closer to the center of our view, from left 20 to right 10 degrees, we come across the Jockey Club i-Village. This is a large, multi-story building distinguished by its blue-gray exterior and an array of windows that hint at its residential or institutional use. Positioned about 30 to 50 meters away, its modern design gives it a commanding presence in this part of the scene. <br><br>
         <strong>5. HKUST Lee Shau Kee Business Building:</strong> <br>
         Finally, on the right side between 20 and 70 degrees, we find the Lee Shau Kee Business Building belonging to HKUST. It stands out with its modern glass-panel facade, offering a sleek, contemporary contrast to the forest surrounding it. Nestled among trees, this building is about 30 to 60 meters away, harmonizing technology, business, and nature in one visual frame. <br>
       </div>
 
       <div class="options">
-        <label for="completeness-1">图片描述是否完整：</label>
+        <!-- Question 1 -->
+        <label for="completeness-1">1) How is the amount of labeled or described content?</label>
         <div class="option-group" id="completeness-1">
-          <div class="option-box" onclick="selectOption('completeness-1', '很不全')">很不全</div>
-          <div class="option-box" onclick="selectOption('completeness-1', '不全')">不全</div>
-          <div class="option-box" onclick="selectOption('completeness-1', '大部分完整')">大部分完整</div>
-          <div class="option-box" onclick="selectOption('completeness-1', '全部完整')">全部完整</div>
+          <div class="option-box" onclick="selectOption('completeness-1', 'Well covered')">A. Well covered</div>
+          <div class="option-box" onclick="selectOption('completeness-1', 'Missing important content')">B. Missing important content</div>
+          <div class="option-box" onclick="selectOption('completeness-1', 'Includes unnecessary content')">C. Includes unnecessary content</div>
+          <div class="option-box" onclick="selectOption('completeness-1', 'Both B and C')">D. Both B and C</div>
         </div>
 
-        <label for="correctness-1">描述是否正确：</label>
+        <!-- Question 2 -->
+        <label for="correctness-1">2) How accurate is the textual description?</label>
         <div class="option-group" id="correctness-1">
-          <div class="option-box" onclick="selectOption('correctness-1', '错')">错</div>
-          <div class="option-box" onclick="selectOption('correctness-1', '多半错')">多半错</div>
-          <div class="option-box" onclick="selectOption('correctness-1', '多半对')">多半对</div>
-          <div class="option-box" onclick="selectOption('correctness-1', '对')">对</div>
+          <div class="option-box" onclick="selectOption('correctness-1', 'Very accurate')">A. Very accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-1', 'Mostly accurate')">B. Mostly accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-1', 'Partially accurate')">C. Partially accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-1', 'Not accurate at all')">D. Not accurate at all</div>
         </div>
 
-        <label for="accuracy-1">左图框的准确性：</label>
+        <!-- Question 3 -->
+        <label for="accuracy-1">3) How accurate are the positions of the image annotations (bounding boxes)?</label>
         <div class="option-group" id="accuracy-1">
-          <div class="option-box" onclick="selectOption('accuracy-1', '错')">不准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-1', '多半错')">大部分不准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-1', '多半对')">大部分准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-1', '对')">准确</div>
+          <div class="option-box" onclick="selectOption('accuracy-1', 'Very accurate')">A. Very accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-1', 'Mostly accurate')">B. Mostly accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-1', 'Partially accurate')">C. Partially accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-1', 'Not accurate at all')">D. Not accurate at all</div>
         </div>
       </div>
     </div>
 
-    <!-- ================== 示例 2 ================== -->
+    <!-- ================== Example 2 ================== -->
     <div class="example-card" id="example-2">
-      <h2>示例 2: Shaw Auditorium</h2>
+      <h2>Example 2: Shaw Auditorium</h2>
       <div class="image-row">
         <img src="../images/Shaw_E_annoted.jpg" alt="Shaw_E_annoted"/>
         <img src="../images/Shaw_E_up.jpg" alt="Shaw_up"/>
@@ -156,130 +253,139 @@
 
       <div class="text-box">
         <strong>Picture Description:</strong> <br>
-        <b> 1. Cheng Yu Tung Building: </b> <br>
-        Off to your left, between the 70 to 30-degree angle, you’ll see the Cheng Yu Tung Building, also known as the Martin Ka Shing Lee Innovation Building. This is a multi-story rectangular structure, immediately recognizable by its sleek grey exterior and clean, geometric lines. Take note of the “Cheng Yu Tung Building” signage displayed on the top left, giving it a clear identity even from a distance. The materials and design give it a modern, functional appearance, well-suited for academic or research purposes. It stands at an approximate distance of 40 to 67 meters, slightly elevated and confidently positioned in the landscape. <br>
-        <b> 2. Shaw Auditorium: </b> <br>
-        Now shift your attention to the center of the scene, spanning from left 23 to right 53 degrees. Right there is the stunning Shaw Auditorium, a masterpiece of contemporary architecture. This building stands out with its smooth white circular design, exuding elegance and openness. The exterior features horizontal window slits, subtly integrated into the curved facade, allowing natural light to pour into the interior while maintaining a clean and streamlined look. It feels quite close—just 20 to 22 meters away—inviting and accessible as a center for performance, gathering, and cultural exchange. <br>
+        <strong>1. Cheng Yu Tung Building:</strong><br>
+        Off to your left, between the 70 to 30-degree angle, you’ll see the Cheng Yu Tung Building, also known as the Martin Ka Shing Lee Innovation Building. This is a multi-story rectangular structure, immediately recognizable by its sleek grey exterior and clean, geometric lines. The building stands at an approximate distance of 40 to 67 meters, slightly elevated and confidently positioned in the landscape. <br><br>
+        <strong>2. Shaw Auditorium:</strong><br>
+        Now shift your attention to the center of the scene, spanning from left 23 to right 53 degrees. Right there is the stunning Shaw Auditorium, a masterpiece of contemporary architecture. It stands out with its smooth white circular design, exuding elegance and openness. It feels quite close—just 20 to 22 meters away—inviting and accessible as a center for performance, gathering, and cultural exchange.
       </div>
 
       <div class="options">
-        <label for="completeness-2">图片描述是否完整：</label>
+        <!-- Question 1 -->
+        <label for="completeness-2">1) How is the amount of labeled or described content?</label>
         <div class="option-group" id="completeness-2">
-          <div class="option-box" onclick="selectOption('completeness-2', '很不全')">很不全</div>
-          <div class="option-box" onclick="selectOption('completeness-2', '不全')">不全</div>
-          <div class="option-box" onclick="selectOption('completeness-2', '大部分完整')">大部分完整</div>
-          <div class="option-box" onclick="selectOption('completeness-2', '全部完整')">全部完整</div>
+          <div class="option-box" onclick="selectOption('completeness-2', 'Well covered')">A. Well covered</div>
+          <div class="option-box" onclick="selectOption('completeness-2', 'Missing important content')">B. Missing important content</div>
+          <div class="option-box" onclick="selectOption('completeness-2', 'Includes unnecessary content')">C. Includes unnecessary content</div>
+          <div class="option-box" onclick="selectOption('completeness-2', 'Both B and C')">D. Both B and C</div>
         </div>
 
-        <label for="correctness-2">描述是否正确：</label>
+        <!-- Question 2 -->
+        <label for="correctness-2">2) How accurate is the textual description?</label>
         <div class="option-group" id="correctness-2">
-          <div class="option-box" onclick="selectOption('correctness-2', '错')">错</div>
-          <div class="option-box" onclick="selectOption('correctness-2', '多半错')">多半错</div>
-          <div class="option-box" onclick="selectOption('correctness-2', '多半对')">多半对</div>
-          <div class="option-box" onclick="selectOption('correctness-2', '对')">对</div>
+          <div class="option-box" onclick="selectOption('correctness-2', 'Very accurate')">A. Very accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-2', 'Mostly accurate')">B. Mostly accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-2', 'Partially accurate')">C. Partially accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-2', 'Not accurate at all')">D. Not accurate at all</div>
         </div>
 
-        <label for="accuracy-2">左图框的准确性：</label>
+        <!-- Question 3 -->
+        <label for="accuracy-2">3) How accurate are the positions of the image annotations (bounding boxes)?</label>
         <div class="option-group" id="accuracy-2">
-          <div class="option-box" onclick="selectOption('accuracy-2', '错')">不准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-2', '多半错')">大部分不准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-2', '多半对')">大部分准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-2', '对')">准确</div>
+          <div class="option-box" onclick="selectOption('accuracy-2', 'Very accurate')">A. Very accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-2', 'Mostly accurate')">B. Mostly accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-2', 'Partially accurate')">C. Partially accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-2', 'Not accurate at all')">D. Not accurate at all</div>
         </div>
       </div>
     </div>
 
-    <!-- ================== 示例 3 ================== -->
+    <!-- ================== Example 3 ================== -->
     <div class="example-card" id="example-3">
-      <h2>示例 3: Staff Hall 15</h2>
+      <h2>Example 3: Staff Hall 15</h2>
       <div class="image-row">
-        <img src="../images/Staff_15_160_annoted.jpg" alt="Staff_hall_1_annoted"/>
-        <img src="../images/Staff_15_160_up.jpg" alt="Staff_hall_1_up"/>
+        <img src="../images/Staff_15_160_annoted.jpg" alt="Staff_hall_15_annoted"/>
+        <img src="../images/Staff_15_160_up.jpg" alt="Staff_hall_15_up"/>
       </div>
 
       <div class="text-box">
         <strong>Picture Description:</strong> <br>
-        <b> 1. HKUST Senior Staff Quarters Block 16: </b><br>
-        Positioned to your left, between the 70 to 34-degree angle, this is a tall white residential building designed specifically for senior staff. Its clean, vertical structure rises prominently from the surrounding greenery, offering a sense of peaceful retreat while still being part of the larger campus setting. The white facade gives it a crisp, modern look that contrasts gently with the lush natural environment around it. Based on its appearance and alignment in the scene, this building stands at a moderate distance—likely within comfortable viewing range, making it a quiet yet prominent feature in the landscape. <br>
-        <b> 2. Leisure Garden (Shrubbery and Plants): </b> <br>
-        Also on the left side within the same 70 to 34-degree field of view, the area surrounding the residential building is complemented by a lush garden space, informally referred to here as the Leisure Garden. This section features shrubbery, plants, and thoughtfully arranged landscaping, creating a calm, inviting foreground. While it may not be a formal structure, this green space enhances the overall visual harmony of the area and adds a layer of tranquility to the residential environment. It appears quite close to the viewer, perhaps within just a few meters, drawing the eye with its soft textures and natural colors. <br>
+        <strong>1. HKUST Senior Staff Quarters Block 16:</strong><br>
+        Positioned to your left, between the 70 to 34-degree angle, this is a tall white residential building designed specifically for senior staff. Its clean, vertical structure rises prominently from the surrounding greenery, offering a sense of peaceful retreat while still being part of the larger campus setting. <br><br>
+        <strong>2. Leisure Garden (Shrubbery and Plants):</strong><br>
+        Also on the left side within the same 70 to 34-degree field of view, the area surrounding the residential building is complemented by a lush garden space, informally referred to here as the Leisure Garden. This section features shrubbery, plants, and thoughtfully arranged landscaping, creating a calm, inviting foreground.
       </div>
 
       <div class="options">
-        <label for="completeness-3">图片描述是否完整：</label>
+        <!-- Question 1 -->
+        <label for="completeness-3">1) How is the amount of labeled or described content?</label>
         <div class="option-group" id="completeness-3">
-          <div class="option-box" onclick="selectOption('completeness-3', '很不全')">很不全</div>
-          <div class="option-box" onclick="selectOption('completeness-3', '不全')">不全</div>
-          <div class="option-box" onclick="selectOption('completeness-3', '大部分完整')">大部分完整</div>
-          <div class="option-box" onclick="selectOption('completeness-3', '全部完整')">全部完整</div>
+          <div class="option-box" onclick="selectOption('completeness-3', 'Well covered')">A. Well covered</div>
+          <div class="option-box" onclick="selectOption('completeness-3', 'Missing important content')">B. Missing important content</div>
+          <div class="option-box" onclick="selectOption('completeness-3', 'Includes unnecessary content')">C. Includes unnecessary content</div>
+          <div class="option-box" onclick="selectOption('completeness-3', 'Both B and C')">D. Both B and C</div>
         </div>
 
-        <label for="correctness-3">描述是否正确：</label>
+        <!-- Question 2 -->
+        <label for="correctness-3">2) How accurate is the textual description?</label>
         <div class="option-group" id="correctness-3">
-          <div class="option-box" onclick="selectOption('correctness-3', '错')">错</div>
-          <div class="option-box" onclick="selectOption('correctness-3', '多半错')">多半错</div>
-          <div class="option-box" onclick="selectOption('correctness-3', '多半对')">多半对</div>
-          <div class="option-box" onclick="selectOption('correctness-3', '对')">对</div>
+          <div class="option-box" onclick="selectOption('correctness-3', 'Very accurate')">A. Very accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-3', 'Mostly accurate')">B. Mostly accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-3', 'Partially accurate')">C. Partially accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-3', 'Not accurate at all')">D. Not accurate at all</div>
         </div>
 
-        <label for="accuracy-3">左图框的准确性：</label>
+        <!-- Question 3 -->
+        <label for="accuracy-3">3) How accurate are the positions of the image annotations (bounding boxes)?</label>
         <div class="option-group" id="accuracy-3">
-          <div class="option-box" onclick="selectOption('accuracy-3', '错')">不准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-3', '多半错')">大部分不准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-3', '多半对')">大部分准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-3', '对')">准确</div>
+          <div class="option-box" onclick="selectOption('accuracy-3', 'Very accurate')">A. Very accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-3', 'Mostly accurate')">B. Mostly accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-3', 'Partially accurate')">C. Partially accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-3', 'Not accurate at all')">D. Not accurate at all</div>
         </div>
       </div>
     </div>
 
-    <!-- ================== 示例 4 ================== -->
+    <!-- ================== Example 4 ================== -->
     <div class="example-card" id="example-4">
-      <h2>示例 4: Staff Hall 12</h2>
+      <h2>Example 4: Staff Hall 12</h2>
       <div class="image-row">
-        <img src="../images/Staff_hall_110_annoted.jpg" alt="Staff_hall_2_annoted"/>  
-        <img src="../images/Staff_hall_110_up.jpg" alt="Staff_hall_2_up"/>
+        <img src="../images/Staff_hall_110_annoted.jpg" alt="Staff_hall_12_annoted"/>
+        <img src="../images/Staff_hall_110_up.jpg" alt="Staff_hall_12_up"/>
       </div>
 
       <div class="text-box">
         <strong>Picture Description:</strong> <br>
-        <b> 1. Natural Wooded Area (Dense Trees): </b><br>
-        Over on the left side, between 70 to 30 degrees, you’ll find a natural cluster of large green trees, forming a soft canopy of foliage that stretches gently above the ground. These trees bring a cool, shaded feel to the area and create a sense of serenity amidst the more structured architecture. With their dense and leafy tops, this little woodland seems to wrap around the space, providing a beautiful natural buffer. These trees are located approximately 10 to 50 meters away, making them feel close and immersive as part of the immediate environment. <br> 
-        <b> 2. HKUST Senior Staff Quarters Block 15: </b> <br>
-        Moving toward the center, from left 10 to right 10 degrees, just beyond the trees, you’ll see Block 15 of the HKUST Senior Staff Quarters. This residential cluster is made up of beige-colored buildings that peek through the greenery. The muted tones of the structures help them blend gently into the surroundings, allowing the natural and built environments to coexist harmoniously. These buildings are set a bit farther back—around 50 to 100 meters away—creating a sense of layered depth in the scene. <br>
-      	<b> 3. HKUST Senior Staff Quarters Block 12:</b> <br>
-        Over to the right, spanning 70 to 10 degrees, stands the Block 12 residential building, and it’s quite distinctive. This multistory structure features a modern blue and white facade, with visible balconies that suggest a welcoming, lived-in atmosphere. At its base, there is integrated parking, a practical feature that hints at the daily rhythms of life in this community. The building sits approximately 10 to 50 meters away, placing it fairly close in our line of sight and making it one of the most visually prominent features in this part of the scene. <br>
+        <strong>1. Natural Wooded Area (Dense Trees):</strong><br>
+        Over on the left side, between 70 to 30 degrees, you’ll find a natural cluster of large green trees, forming a soft canopy of foliage that stretches gently above the ground. <br><br>
+        <strong>2. HKUST Senior Staff Quarters Block 15:</strong><br>
+        Moving toward the center, from left 10 to right 10 degrees, just beyond the trees, you’ll see Block 15 of the HKUST Senior Staff Quarters. The muted tones of the structures help them blend gently into the surroundings. <br><br>
+        <strong>3. HKUST Senior Staff Quarters Block 12:</strong><br>
+        Over to the right, spanning 70 to 10 degrees, stands the Block 12 residential building. This multistory structure features a modern blue and white facade, with visible balconies that suggest a welcoming, lived-in atmosphere. 
       </div>
 
       <div class="options">
-        <label for="completeness-4">图片描述是否完整：</label>
+        <!-- Question 1 -->
+        <label for="completeness-4">1) How is the amount of labeled or described content?</label>
         <div class="option-group" id="completeness-4">
-          <div class="option-box" onclick="selectOption('completeness-4', '很不全')">很不全</div>
-          <div class="option-box" onclick="selectOption('completeness-4', '不全')">不全</div>
-          <div class="option-box" onclick="selectOption('completeness-4', '大部分完整')">大部分完整</div>
-          <div class="option-box" onclick="selectOption('completeness-4', '全部完整')">全部完整</div>
+          <div class="option-box" onclick="selectOption('completeness-4', 'Well covered')">A. Well covered</div>
+          <div class="option-box" onclick="selectOption('completeness-4', 'Missing important content')">B. Missing important content</div>
+          <div class="option-box" onclick="selectOption('completeness-4', 'Includes unnecessary content')">C. Includes unnecessary content</div>
+          <div class="option-box" onclick="selectOption('completeness-4', 'Both B and C')">D. Both B and C</div>
         </div>
 
-        <label for="correctness-4">描述是否正确：</label>
+        <!-- Question 2 -->
+        <label for="correctness-4">2) How accurate is the textual description?</label>
         <div class="option-group" id="correctness-4">
-          <div class="option-box" onclick="selectOption('correctness-4', '错')">错</div>
-          <div class="option-box" onclick="selectOption('correctness-4', '多半错')">多半错</div>
-          <div class="option-box" onclick="selectOption('correctness-4', '多半对')">多半对</div>
-          <div class="option-box" onclick="selectOption('correctness-4', '对')">对</div>
+          <div class="option-box" onclick="selectOption('correctness-4', 'Very accurate')">A. Very accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-4', 'Mostly accurate')">B. Mostly accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-4', 'Partially accurate')">C. Partially accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-4', 'Not accurate at all')">D. Not accurate at all</div>
         </div>
 
-        <label for="accuracy-4">左图框的准确性：</label>
+        <!-- Question 3 -->
+        <label for="accuracy-4">3) How accurate are the positions of the image annotations (bounding boxes)?</label>
         <div class="option-group" id="accuracy-4">
-          <div class="option-box" onclick="selectOption('accuracy-4', '错')">不准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-4', '多半错')">大部分不准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-4', '多半对')">大部分准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-4', '对')">准确</div>
+          <div class="option-box" onclick="selectOption('accuracy-4', 'Very accurate')">A. Very accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-4', 'Mostly accurate')">B. Mostly accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-4', 'Partially accurate')">C. Partially accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-4', 'Not accurate at all')">D. Not accurate at all</div>
         </div>
       </div>
     </div>
 
-    <!-- ================== 示例 5 ================== -->
+    <!-- ================== Example 5 ================== -->
     <div class="example-card" id="example-5">
-      <h2>示例 5: Tennis Court 5</h2>
+      <h2>Example 5: Tennis Court 5</h2>
       <div class="image-row">
         <img src="../images/Tennis_5_E_annoted.jpg" alt="Tennis_5_E_annoted"/>
         <img src="../images/Tennis_5_E_up.jpg" alt="Tennis_5_E_up"/>
@@ -287,47 +393,48 @@
 
       <div class="text-box">
         <strong>Picture Description:</strong> <br>
-        <b> 1. Cheng Yu Tung Building: </b><br>
-        On your left-hand side, spanning from 70 to 30 degrees, you’ll find the Cheng Yu Tung Building—a structure with a beige facade and neatly arranged rectangular windows. Its light tone gives it a warm and clean appearance, while its fencing along the left portion adds a sense of boundary, perhaps indicating an area under restricted access or active use. The building stands about 30 to 63 meters away, creating a solid architectural anchor on this side of the view. <br> 
-        <b> 2. Leisure Park: </b> <br>
-        Moving slightly toward the center, from left 10 to right 50 degrees, your eyes will land on a leisure park—a lush and inviting space perfect for relaxation or casual strolls. This area is dotted with medium-sized trees and grassy patches, which line the walkways and perimeter fencing, adding a sense of softness and openness to the environment. The park is relatively close, situated about 10 to 44 meters from where we’re standing, making it an ideal spot for a peaceful break in nature. <br>
-      	<b> 3. Tennis Courts No. 5 & 6:</b> <br>
-        Right ahead in the center to right portion, between 10 and 40 degrees, we come to the Tennis Courts No. 5 & 6. These are clearly fenced-in recreational courts, with green fencing providing both enclosure and visibility. Whether you’re into tennis or just watching a match, this spot is perfect for engaging with campus life. These courts are the closest feature in view—just 1 to 20 meters away, practically right in front of us. <br>
-        <b> 4. Shaw Auditorium:</b><br>
-        Finally, over to the far right, from 40 to 70 degrees, partially hidden behind trees and fencing, you’ll notice the distinctive shape of the Shaw Auditorium. Its rounded structure, possibly domed, peeks out just enough to catch your attention. The curved lines give it a modern and elegant feel, suggesting it’s a space meant for performances, lectures, or community events. The auditorium is set a bit farther back, approximately 40 to 61 meters away, but still makes a strong visual impact in the scene. <br>
+        <strong>1. Cheng Yu Tung Building:</strong><br>
+        On your left-hand side, spanning from 70 to 30 degrees, you’ll find the Cheng Yu Tung Building—a structure with a beige facade and neatly arranged rectangular windows. <br><br>
+        <strong>2. Leisure Park:</strong><br>
+        Moving slightly toward the center, from left 10 to right 50 degrees, your eyes will land on a leisure park—a lush and inviting space perfect for relaxation. <br><br>
+        <strong>3. Tennis Courts No. 5 & 6:</strong><br>
+        Right ahead in the center to right portion, between 10 and 40 degrees, we come to the Tennis Courts No. 5 & 6. These are clearly fenced-in recreational courts, with green fencing providing both enclosure and visibility. <br><br>
+        <strong>4. Shaw Auditorium:</strong><br>
+        Finally, over to the far right, from 40 to 70 degrees, partially hidden behind trees and fencing, you’ll notice the distinctive shape of the Shaw Auditorium.
       </div>
 
       <div class="options">
-        <label for="completeness-5">图片描述是否完整：</label>
+        <!-- Question 1 -->
+        <label for="completeness-5">1) How is the amount of labeled or described content?</label>
         <div class="option-group" id="completeness-5">
-          <div class="option-box" onclick="selectOption('completeness-5', '很不全')">很不全</div>
-          <div class="option-box" onclick="selectOption('completeness-5', '不全')">不全</div>
-          <div class="option-box" onclick="selectOption('completeness-5', '大部分完整')">大部分完整</div>
-          <div class="option-box" onclick="selectOption('completeness-5', '全部完整')">全部完整</div>
+          <div class="option-box" onclick="selectOption('completeness-5', 'Well covered')">A. Well covered</div>
+          <div class="option-box" onclick="selectOption('completeness-5', 'Missing important content')">B. Missing important content</div>
+          <div class="option-box" onclick="selectOption('completeness-5', 'Includes unnecessary content')">C. Includes unnecessary content</div>
+          <div class="option-box" onclick="selectOption('completeness-5', 'Both B and C')">D. Both B and C</div>
         </div>
 
-        <label for="correctness-5">描述是否正确：</label>
+        <!-- Question 2 -->
+        <label for="correctness-5">2) How accurate is the textual description?</label>
         <div class="option-group" id="correctness-5">
-          <div class="option-box" onclick="selectOption('correctness-5', '错')">错</div>
-          <div class="option-box" onclick="selectOption('correctness-5', '多半错')">多半错</div>
-          <div class="option-box" onclick="selectOption('correctness-5', '多半对')">多半对</div>
-          <div class="option-box" onclick="selectOption('correctness-5', '对')">对</div>
+          <div class="option-box" onclick="selectOption('correctness-5', 'Very accurate')">A. Very accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-5', 'Mostly accurate')">B. Mostly accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-5', 'Partially accurate')">C. Partially accurate</div>
+          <div class="option-box" onclick="selectOption('correctness-5', 'Not accurate at all')">D. Not accurate at all</div>
         </div>
 
-        <label for="accuracy-5">左图框的准确性：</label>
+        <!-- Question 3 -->
+        <label for="accuracy-5">3) How accurate are the positions of the image annotations (bounding boxes)?</label>
         <div class="option-group" id="accuracy-5">
-          <div class="option-box" onclick="selectOption('accuracy-5', '错')">不准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-5', '多半错')">大部分不准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-5', '多半对')">大部分准确</div>
-          <div class="option-box" onclick="selectOption('accuracy-5', '对')">准确</div>
+          <div class="option-box" onclick="selectOption('accuracy-5', 'Very accurate')">A. Very accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-5', 'Mostly accurate')">B. Mostly accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-5', 'Partially accurate')">C. Partially accurate</div>
+          <div class="option-box" onclick="selectOption('accuracy-5', 'Not accurate at all')">D. Not accurate at all</div>
         </div>
       </div>
     </div>
 
-    
-
-    <!-- ================== 统一提交按钮 ================== -->
-    <button id="submitBtn" onclick="submitAllData()" disabled>提交所有数据</button>
+    <!-- Submit button -->
+    <button id="submitBtn" onclick="submitAllData()" disabled>Submit All Data</button>
   </div>
 
   <script>

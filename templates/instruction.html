@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Annotation Evaluation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+    }
+    .question {
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .question h2 {
+      font-size: 1.2em;
+      color: #444;
+    }
+    .options label {
+      display: block;
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Image Annotation Evaluation</h1>
+  <p>Please refer to the photo on the left and the GIS map on the right. Answer the questions below based on how well the image annotations and descriptions align with the map.</p>
+
+  <div class="question">
+    <h2>1. Coverage of Labeled or Described Content</h2>
+    <p>Based on the GIS map, how well does the image and description cover the key elements?</p>
+    <div class="options">
+      <label><input type="radio" name="coverage" value="A"> A. Well covered</label>
+      <label><input type="radio" name="coverage" value="B"> B. Missing important elements</label>
+      <label><input type="radio" name="coverage" value="C"> C. Includes unnecessary elements</label>
+      <label><input type="radio" name="coverage" value="D"> D. Both B and C</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <h2>2. Accuracy of Text Descriptions</h2>
+    <p>How accurate are the descriptions of each element, based on the image and GIS map?</p>
+    <div class="options">
+      <label><input type="radio" name="text_accuracy" value="A"> A. Very accurate</label>
+      <label><input type="radio" name="text_accuracy" value="B"> B. Mostly accurate</label>
+      <label><input type="radio" name="text_accuracy" value="C"> C. Only partially accurate</label>
+      <label><input type="radio" name="text_accuracy" value="D"> D. Not accurate at all</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <h2>3. Accuracy of Image Annotations (Bounding Box Positions)</h2>
+    <p>How accurate are the bounding boxes in the image, relative to the real-world structures?</p>
+    <div class="options">
+      <label><input type="radio" name="box_accuracy" value="A"> A. Very accurate</label>
+      <label><input type="radio" name="box_accuracy" value="B"> B. Mostly accurate</label>
+      <label><input type="radio" name="box_accuracy" value="C"> C. Only partially accurate</label>
+      <label><input type="radio" name="box_accuracy" value="D"> D. Not accurate at all</label>
+    </div>
+  </div>
+
+</body>
+</html>
