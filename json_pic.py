@@ -6,34 +6,31 @@ name = "Jockey_hall_S"
 # name = "Staff_15_160"
 # name = "Staff_hall_110"
 # name = "Tennis_5_E"
-image_path = f"{name}.jpg"
-annotation_size = (1148, 861)
+image_path = f"images/{name}.jpg"
+annotation_size = (1280, 960)
 
 # 标注信息
 annotations = {
-    "objects": [
+  "image_size": [1, 1],
+  "objects": [
         {
-            "label": "Vegetation (Forest) – Hill Slope",
-            "bounding_box": [0, 250, 400, 650]
-        },
-        {
-            "label": "Vegetation (Forest) – Hilly Terrain",
-            "bounding_box": [700, 180, 1148, 650]
+            "label": "Vegetation (Forest)",
+            "bounding_box": [0, 0.5*960, 1*1280, 1*960]
         },
         {
             "label": "Jockey Club Global Graduate Tower",
-            "bounding_box": [0, 0, 180, 500]
+            "bounding_box": [0, 0, 0.15*1280, 0.5*960]
         },
         {
             "label": "Jockey Club i-Village",
-            "bounding_box": [180, 290, 650, 600]
+            "bounding_box": [0.17*1280, 0.38*960, 0.57*1280, 0.68*960]
         },
         {
             "label": "HKUST Lee Shau Kee Business Building",
-            "bounding_box": [700, 0, 1148, 500]
+            "bounding_box": [0.64*1280, 0, 1*1280, 0.5*960]
         }
-    ]
-    }
+    ]}
+
 
 # annotations = {
 #   "objects": [
