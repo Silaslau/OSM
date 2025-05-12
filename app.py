@@ -7,7 +7,7 @@ app = Flask(__name__, template_folder='.')
 CORS(app)
 
 # 从环境变量中读取数据库地址（Render 自动提供）
-DATABASE_URL = os.environ.get("DATABASE_URL")
+DATABASE_URL = os.environ.get("DB_URL")
 
 # 建立数据库连接
 def get_db():
