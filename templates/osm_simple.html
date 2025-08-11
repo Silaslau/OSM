@@ -218,7 +218,7 @@
       const dataToSend = selectedExamples.map(example => {
         const exampleId = example.id.split('-')[1];
         return {
-          exampleId: Number(exampleId),
+          example_id: Number(exampleId),
           completeness: selections[`completeness-${exampleId}`],
           correctness: selections[`correctness-${exampleId}`],
           accuracy: selections[`accuracy-${exampleId}`]

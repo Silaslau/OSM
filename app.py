@@ -117,10 +117,19 @@ def save_data():
     print(f"收到数据: {data}")
     
     for item in data:
-        example_id = item.get('example_id')
+        # 同时兼容 example_id 与 exampleId
+        raw_id = item.get('example_id', item.get('exampleId', item.get('id')))
+        try:
+            example_id = int(raw_id) if raw_id is not None else None
+        except Exception:
+            example_id = None
         completeness = item.get('completeness')
         correctness = item.get('correctness')
         accuracy = item.get('accuracy')
+        
+        if example_id is None:
+            print(f"[WARN] 跳过一条因缺少 example_id 的记录: {item}")
+            continue
         
         if DATABASE_URL and psycopg2 is not None:
             # PostgreSQL
@@ -263,3 +272,4 @@ if __name__ == '__main__':
 
     # PORT=8000 python3 app.py                                            
     # http://127.0.0.1:8000/osm_simple
+    # http://127.0.0.1:8000
