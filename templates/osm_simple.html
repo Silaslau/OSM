@@ -57,15 +57,15 @@
       <ol>
         <li>
           <strong>How is the amount of labeled or described content?</strong><br>
-          Check whether all significant objects in the photo are included and clearly marked, without imporant elements missing or irrelevant items added.
-        </li>
-        <li>
-          <strong>How accurate is the textual description?</strong><br>
-          Determine whether each object is described correctly in terms of its appearance, location, or function.
+          Check whether all significant objects in the photo are included and clearly labeled, ensuring that no important elements are missing and no irrelevant items are added.
         </li>
         <li>
           <strong>How accurate are the positions of the image annotations (bounding boxes)?</strong><br>
-          Assess whether each bounding box is placed correctly around the intended object, accurately reflecting its location and boundaries.
+          Assess whether each bounding box correctly encompasses the intended object, accurately reflecting its actual location and boundaries.
+        </li>
+        <li>
+          <strong>How accurate is the textual description?</strong><br>
+          Determine whether each object is described accurately with respect to its appearance, location, and function.
         </li>
       </ol>
     </div>
@@ -131,20 +131,20 @@
             <div class="option-box" onclick="selectOption('completeness-${id}', 'Both B and C')">D. Both B and C</div>
           </div>
 
-          <label for="correctness-${id}">2) How accurate is the textual description?</label>
-          <div class="option-group" id="correctness-${id}">
-            <div class="option-box" onclick="selectOption('correctness-${id}', 'Very accurate')">A. Very accurate</div>
-            <div class="option-box" onclick="selectOption('correctness-${id}', 'Mostly accurate')">B. Mostly accurate</div>
-            <div class="option-box" onclick="selectOption('correctness-${id}', 'Partially accurate')">C. Partially accurate</div>
-            <div class="option-box" onclick="selectOption('correctness-${id}', 'Not accurate at all')">D. Not accurate at all</div>
-          </div>
-
-          <label for="accuracy-${id}">3) How accurate are the positions of the image annotations (bounding boxes)?</label>
+          <label for="accuracy-${id}">2) How accurate are the positions of the image annotations (bounding boxes)?</label>
           <div class="option-group" id="accuracy-${id}">
             <div class="option-box" onclick="selectOption('accuracy-${id}', 'Very accurate')">A. Very accurate</div>
             <div class="option-box" onclick="selectOption('accuracy-${id}', 'Mostly accurate')">B. Mostly accurate</div>
             <div class="option-box" onclick="selectOption('accuracy-${id}', 'Partially accurate')">C. Partially accurate</div>
             <div class="option-box" onclick="selectOption('accuracy-${id}', 'Not accurate at all')">D. Not accurate at all</div>
+          </div>
+
+          <label for="correctness-${id}">3) How accurate is the textual description?</label>
+          <div class="option-group" id="correctness-${id}">
+            <div class="option-box" onclick="selectOption('correctness-${id}', 'Very accurate')">A. Very accurate</div>
+            <div class="option-box" onclick="selectOption('correctness-${id}', 'Mostly accurate')">B. Mostly accurate</div>
+            <div class="option-box" onclick="selectOption('correctness-${id}', 'Partially accurate')">C. Partially accurate</div>
+            <div class="option-box" onclick="selectOption('correctness-${id}', 'Not accurate at all')">D. Not accurate at all</div>
           </div>
         </div>
       `;
