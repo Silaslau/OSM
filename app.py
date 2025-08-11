@@ -61,6 +61,26 @@ def get_db():
         conn = sqlite3.connect(str(db_path))
         return conn
 
+def _pg_migrate_example_id_bigint(conn):
+    try:
+        with conn.cursor() as cur:
+            # 将 example_id 升级为 BIGINT，已是 BIGINT 时不会报错
+            cur.execute("""
+                DO $$
+                BEGIN
+                    IF EXISTS (
+                        SELECT 1 FROM information_schema.columns
+                        WHERE table_name='feedback' AND column_name='example_id' AND data_type='integer'
+                    ) THEN
+                        ALTER TABLE feedback ALTER COLUMN example_id TYPE BIGINT;
+                    END IF;
+                END$$;
+            """)
+            conn.commit()
+    except Exception as e:
+        # 迁移失败不阻塞启动，仅记录
+        print(f"[WARN] migrate example_id->BIGINT failed: {e}")
+
 # 初始化表（分别支持 PG 与 SQLite）
 def init_db():
     if DATABASE_URL and psycopg2 is not None:
@@ -70,13 +90,15 @@ def init_db():
                 cur.execute('''
                     CREATE TABLE IF NOT EXISTS feedback (
                         id SERIAL PRIMARY KEY,
-                        example_id INTEGER,
+                        example_id BIGINT,
                         completeness TEXT,
                         correctness TEXT,
                         accuracy TEXT
                     )
                 ''')
                 conn.commit()
+            # 尝试迁移旧表结构中的 example_id: INTEGER -> BIGINT
+            _pg_migrate_example_id_bigint(conn)
     else:
         # SQLite
         conn = get_db()
