@@ -1,0 +1,24 @@
+Welcome, everyone! Today, we are standing in a vibrant and bustling area with several notable buildings and features. Let me guide you through the scene, highlighting the key structures and their unique characteristics.
+
+1. **北京穆斯林大厦 (Beijing Muslim Mansion)**:
+   - **Location**: From left 30 degrees to left 10 degrees.
+   - **Visual Characteristics**: This is a striking red building featuring a prominent clock tower, which makes it easily recognizable. The red color and the clock tower give it a distinctive and somewhat traditional appearance.
+   - **Distance**: Approximately 50 meters from our current position.
+   - **Adjoining Features**: It is connected to the 裕华民族大厦 (Yuhua National Mansion).
+   - **Inclusive Nodes**: Within this building, you can find the Atour Hotel and a 3D TV store.
+
+2. **裕华民族大厦 (Yuhua National Mansion)**:
+   - **Location**: From the center to right 30 degrees.
+   - **Visual Characteristics**: This beige building is notable for housing multiple shops, including a prominent 'ZARA' store. The beige color gives it a more modern and commercial look.
+   - **Distance**: Approximately 20 meters from where we stand.
+   - **Adjoining Features**: It is adjacent to the 北京穆斯林大厦 (Beijing Muslim Mansion).
+   - **Inclusive Nodes**: One of the key features within this building is the Beijing Foreign Languages Bookstore, a popular spot for book lovers.
+
+3. **裕华民族大厦 (Yuhua National Mansion)**:
+   - **Location**: From right 30 degrees to right 70 degrees.
+   - **Visual Characteristics**: This section of the Yuhua National Mansion is characterized by various shops and signs, making it a lively and commercial area.
+   - **Distance**: Approximately 30 meters from our viewpoint.
+   - **Adjoining Features**: It is also connected to the 北京穆斯林大厦 (Beijing Muslim Mansion).
+   - **Inclusive Nodes**: Similar to the previous section, this part of the building includes the Beijing Foreign Languages Bookstore.
+
+As you can see, these buildings are not only architecturally interesting but also house a variety of shops and services that cater to both locals and visitors. Feel free to explore and enjoy the vibrant atmosphere of this area!

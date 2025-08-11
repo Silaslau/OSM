@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>OSM Information Description Evaluation</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background-color: #f3f3f3; }
+    .container { max-width: 1600px; margin: 20px auto; background-color: #f3f3f3; padding: 0 20px; }
+    .header-title { text-align: center; margin-bottom: 30px; font-size: 28px; color: #333; letter-spacing: 1px; }
+    .example-card { border: 1px solid #ccc; padding: 16px; margin-bottom: 40px; background-color: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .example-card h2 { margin-top: 0; margin-bottom: 16px; font-size: 20px; color: #444; }
+    .image-html { display: flex; gap: 10px; margin-bottom: 20px; }
+    .image-html img { max-width: 50%; flex: 1; border: 1px solid #ccc; border-radius: 8px; }
+    .image-html .content { flex: 1; padding: 10px; }
+    .text-box { margin-bottom: 10px; line-height: 1.6; color: #333; }
+    .options { margin-top: 20px; }
+    .option-group { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .option-box { padding: 10px 16px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; transition: background-color 0.3s, color 0.3s; background-color: #fafafa; font-size: 14px; }
+    .option-box:hover { background-color: #e0e0e0; }
+    .option-box.selected { background-color: #4CAF50; color: white; border-color: #4CAF50; }
+    #submitBtn { display: block; margin: 0 auto 40px; padding: 10px 20px; cursor: pointer; font-size: 16px; border: none; border-radius: 4px; background-color: #333; color: #fff; transition: background-color 0.3s; }
+    #submitBtn:disabled { background-color: #ccc; cursor: not-allowed; }
+    #submitBtn:hover:not(:disabled) { background-color: #555; }
+    @media (max-width: 768px) { .image-html { flex-direction: column; } .image-html img { max-width: 100%; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="header-title">OSM Information Description Evaluation</h1>
+
+    <div class="example-card" id="instruction">
+      <h2>Instruction</h2>
+      <p>The goal is to <strong>match each photo with the corresponding OSM elements</strong> on the GIS map. Focus on <strong>OSM objects</strong> that can also be observed on the map.</p>
+      <p>On this page, you will see a subset of cases randomly sampled from the full pool. For each case, please answer the following:</p>
+      <ol>
+        <li><strong>Coverage</strong>: Are all significant objects included without missing or irrelevant items?</li>
+        <li><strong>Text correctness</strong>: Are the descriptions accurate for appearance/location/function?</li>
+        <li><strong>Box accuracy</strong>: Are the bounding boxes correctly placed?</li>
+      </ol>
+    </div>
+
+    {% if not cases %}
+      <p>No cases available. Please upload or prepare data/cases.json.</p>
+    {% endif %}
+
+    {% for case in cases %}
+      <div class="example-card" id="example-{{ case.id }}">
+        <h2>{{ case.title }}</h2>
+        <div class="image-html">
+          <img src="{{ case.image_src }}" alt="{{ case.image_alt or case.title }}" />
+          <div class="content">
+            <h2>OpenStreetMap Information</h2>
+            <iframe src="{{ case.map_src }}" width="100%" height="500px" style="border: none;"></iframe>
+          </div>
+        </div>
+
+        <div class="text-box">
+          <strong>Picture Description:</strong>
+          {% for paragraph in case.description %}
+            <p>{{ paragraph|safe }}</p>
+          {% endfor %}
+        </div>
+
+        <div class="options">
+          <label for="completeness-{{ case.id }}">1) How is the amount of labeled or described content?</label>
+          <div class="option-group" id="completeness-{{ case.id }}">
+            <div class="option-box" onclick="selectOption('completeness-{{ case.id }}','Well covered')">A. Well covered</div>
+            <div class="option-box" onclick="selectOption('completeness-{{ case.id }}','Missing important content')">B. Missing important content</div>
+            <div class="option-box" onclick="selectOption('completeness-{{ case.id }}','Includes unnecessary content')">C. Includes unnecessary content</div>
+            <div class="option-box" onclick="selectOption('completeness-{{ case.id }}','Both B and C')">D. Both B and C</div>
+          </div>
+
+          <label for="correctness-{{ case.id }}">2) How accurate is the textual description?</label>
+          <div class="option-group" id="correctness-{{ case.id }}">
+            <div class="option-box" onclick="selectOption('correctness-{{ case.id }}','Very accurate')">A. Very accurate</div>
+            <div class="option-box" onclick="selectOption('correctness-{{ case.id }}','Mostly accurate')">B. Mostly accurate</div>
+            <div class="option-box" onclick="selectOption('correctness-{{ case.id }}','Partially accurate')">C. Partially accurate</div>
+            <div class="option-box" onclick="selectOption('correctness-{{ case.id }}','Not accurate at all')">D. Not accurate at all</div>
+          </div>
+
+          <label for="accuracy-{{ case.id }}">3) How accurate are the positions of the image annotations (bounding boxes)?</label>
+          <div class="option-group" id="accuracy-{{ case.id }}">
+            <div class="option-box" onclick="selectOption('accuracy-{{ case.id }}','Very accurate')">A. Very accurate</div>
+            <div class="option-box" onclick="selectOption('accuracy-{{ case.id }}','Mostly accurate')">B. Mostly accurate</div>
+            <div class="option-box" onclick="selectOption('accuracy-{{ case.id }}','Partially accurate')">C. Partially accurate</div>
+            <div class="option-box" onclick="selectOption('accuracy-{{ case.id }}','Not accurate at all')">D. Not accurate at all</div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    <button id="submitBtn" onclick="submitAllData()" disabled>Submit All Data</button>
+  </div>
+
+  <script>
+    let selections = {};
+
+    function selectOption(groupId, optionValue) {
+      const selectedOption = document.querySelector(`#${groupId} .option-box.selected`);
+      if (selectedOption) selectedOption.classList.remove('selected');
+      const option = event.target; option.classList.add('selected');
+      selections[groupId] = optionValue;
+      checkIfAllSelected();
+    }
+
+    function checkIfAllSelected() {
+      const groups = document.querySelectorAll('.option-group');
+      const allSelected = Array.from(groups).every(g => selections[g.id] !== undefined);
+      document.getElementById('submitBtn').disabled = !allSelected;
+    }
+
+    function submitAllData() {
+      const exampleCards = document.querySelectorAll('.example-card[id^="example-"]');
+      const dataToSend = Array.from(exampleCards).map(card => {
+        const id = card.id.split('-')[1];
+        return {
+          exampleId: Number(id),
+          completeness: selections[`completeness-${id}`],
+          correctness: selections[`correctness-${id}`],
+          accuracy: selections[`accuracy-${id}`]
+        };
+      });
+
+      fetch('https://osm-53rx.onrender.com/saveData', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataToSend)
+      })
+      .then(r => { if (!r.ok) throw new Error('Failed to submit: ' + r.statusText); return r.json(); })
+      .then(_ => alert('All data successfully submitted'))
+      .catch(e => alert('Error submitting data: ' + e.message));
+    }
+  </script>
+</body>
+</html> 

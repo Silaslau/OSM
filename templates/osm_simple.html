@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>OSM Information Description Evaluation (Simple)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background-color: #f3f3f3; }
+    .container { max-width: 1600px; margin: 20px auto; background-color: #f3f3f3; padding: 0 20px; }
+    .header-title { text-align: center; margin-bottom: 30px; font-size: 28px; color: #333; letter-spacing: 1px; }
+    .example-card { border: 1px solid #ccc; padding: 16px; margin-bottom: 40px; background-color: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .example-card h2 { margin-top: 0; margin-bottom: 16px; font-size: 20px; color: #444; }
+    .image-html { display: flex; gap: 12px; margin-bottom: 20px; align-items: stretch; }
+    .image-pane, .map-pane { flex: 1 1 50%; min-width: 0; }
+    .image-pane img { width: 100%; height: auto; display: block; border: 1px solid #ccc; border-radius: 8px; }
+    .map-pane iframe { width: 100%; height: 100%; min-height: 320px; border: none; border-radius: 8px; }
+    .text-box { margin-bottom: 10px; line-height: 1.6; color: #333; }
+    .options { margin-top: 20px; }
+    .option-group { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .option-box { padding: 10px 16px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; transition: background-color 0.3s, color 0.3s; background-color: #fafafa; font-size: 14px; }
+    .option-box:hover { background-color: #e0e0e0; }
+    .option-box.selected { background-color: #4CAF50; color: white; border-color: #4CAF50; }
+    #submitBtn { display: block; margin: 0 auto 40px; padding: 10px 20px; cursor: pointer; font-size: 16px; border: none; border-radius: 4px; background-color: #333; color: #fff; transition: background-color 0.3s; }
+    #submitBtn:disabled { background-color: #ccc; cursor: not-allowed; }
+    #submitBtn:hover:not(:disabled) { background-color: #555; }
+    @media (max-width: 900px) { .image-html { flex-direction: column; } .image-pane, .map-pane { flex: 1 1 auto; } .map-pane iframe { height: 60vh; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="header-title">OSM Information Description Evaluation</h1>
+
+    <div class="example-card" id="instruction">
+      <h2>Instruction</h2>
+      <p>
+        The goal of our model is to <strong> match each photo with the corresponding OpenStreetMap (OSM) elements </strong> as shown in the GIS map. Therefore, we only focus on <strong> OSM objects </strong> — those features that can also be observed on the map. 
+      </p>
+      <p>
+        In this evaluation, there are <strong> five </strong> examples. Each example features two pictures and a corresponding text description:
+      </p>
+      <ul>
+        <li>
+          <strong>Left Picture (Real Photo):</strong> Shows the actual scene with bounding boxes drawn around the detected objects.
+        </li>
+        <li>
+          <strong>Right Picture (GIS Map):</strong> Displays the shooting location on a map, with an arrow indicating the direction from which the left photo was taken. 
+        </li>
+        <li>
+        <strong> Picture description: </strong> Describes the objects detected in the left photo (with bounding boxes) that can also be observed in the right map.
+        </li>
+      </ul>
+      <p>
+        
+      </p>
+      <p>
+        For each example, please answer the following three questions:
+      </p>
+      <ol>
+        <li>
+          <strong>How is the amount of labeled or described content?</strong><br>
+          Check whether all significant objects in the photo are included and clearly marked, without imporant elements missing or irrelevant items added.
+        </li>
+        <li>
+          <strong>How accurate is the textual description?</strong><br>
+          Determine whether each object is described correctly in terms of its appearance, location, or function.
+        </li>
+        <li>
+          <strong>How accurate are the positions of the image annotations (bounding boxes)?</strong><br>
+          Assess whether each bounding box is placed correctly around the intended object, accurately reflecting its location and boundaries.
+        </li>
+      </ol>
+    </div>
+
+    <div id="cards-root"></div>
+
+    <button id="submitBtn" onclick="submitAllData()" disabled>Submit All Data</button>
+  </div>
+
+  <script>
+    const selections = {};          // 保存每题选项
+    const selectedExamples = [];    // 实际展示的卡片元素列表
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function selectOption(groupId, optionValue) {
+      const selectedOption = document.querySelector(`#${groupId} .option-box.selected`);
+      if (selectedOption) selectedOption.classList.remove('selected');
+      const option = event.target; // 与 osm.html 一致
+      option.classList.add('selected');
+      selections[groupId] = optionValue;
+      checkIfAllSelected();
+    }
+
+    function checkIfAllSelected() {
+      const allSelected = selectedExamples.every(example => {
+        const exampleId = example.id.split('-')[1];
+        return ['completeness', 'correctness', 'accuracy'].every(q => selections[`${q}-${exampleId}`] !== undefined);
+      });
+      document.getElementById('submitBtn').disabled = !allSelected;
+    }
+
+    function buildCard(caseItem) {
+      const { id, title, image_src, map_src, description } = caseItem;
+      const card = document.createElement('div');
+      card.className = 'example-card';
+      card.id = `example-${id}`;
+      card.innerHTML = `
+        <h2>${title || ('Example ' + id)}</h2>
+        <div class="image-html">
+          <div class="image-pane">
+            <img src="${image_src || ''}" alt="${title || ('Example ' + id)}" />
+          </div>
+          <div class="map-pane">
+            <iframe src="${map_src || ''}" title="map-${id}"></iframe>
+          </div>
+        </div>
+        <div class="text-box">
+          <strong>Picture Description:</strong>
+          ${(Array.isArray(description) ? description : []).map(p => `<p>${p}</p>`).join('')}
+        </div>
+        <div class="options">
+          <label for="completeness-${id}">1) How is the amount of labeled or described content?</label>
+          <div class="option-group" id="completeness-${id}">
+            <div class="option-box" onclick="selectOption('completeness-${id}', 'Well covered')">A. Well covered</div>
+            <div class="option-box" onclick="selectOption('completeness-${id}', 'Missing important content')">B. Missing important content</div>
+            <div class="option-box" onclick="selectOption('completeness-${id}', 'Includes unnecessary content')">C. Includes unnecessary content</div>
+            <div class="option-box" onclick="selectOption('completeness-${id}', 'Both B and C')">D. Both B and C</div>
+          </div>
+
+          <label for="correctness-${id}">2) How accurate is the textual description?</label>
+          <div class="option-group" id="correctness-${id}">
+            <div class="option-box" onclick="selectOption('correctness-${id}', 'Very accurate')">A. Very accurate</div>
+            <div class="option-box" onclick="selectOption('correctness-${id}', 'Mostly accurate')">B. Mostly accurate</div>
+            <div class="option-box" onclick="selectOption('correctness-${id}', 'Partially accurate')">C. Partially accurate</div>
+            <div class="option-box" onclick="selectOption('correctness-${id}', 'Not accurate at all')">D. Not accurate at all</div>
+          </div>
+
+          <label for="accuracy-${id}">3) How accurate are the positions of the image annotations (bounding boxes)?</label>
+          <div class="option-group" id="accuracy-${id}">
+            <div class="option-box" onclick="selectOption('accuracy-${id}', 'Very accurate')">A. Very accurate</div>
+            <div class="option-box" onclick="selectOption('accuracy-${id}', 'Mostly accurate')">B. Mostly accurate</div>
+            <div class="option-box" onclick="selectOption('accuracy-${id}', 'Partially accurate')">C. Partially accurate</div>
+            <div class="option-box" onclick="selectOption('accuracy-${id}', 'Not accurate at all')">D. Not accurate at all</div>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    function adjustCardLayout(cardEl) {
+      const img = cardEl.querySelector('.image-pane img');
+      const iframe = cardEl.querySelector('.map-pane iframe');
+      const imagePane = cardEl.querySelector('.image-pane');
+      const mapPane = cardEl.querySelector('.map-pane');
+      if (!img || !iframe) return;
+
+      const compute = () => {
+        // 若图片尚未有自然尺寸，跳过
+        if (!img.naturalWidth || !img.naturalHeight) return;
+        const ar = img.naturalWidth / img.naturalHeight; // >1 横向，<1 纵向
+        // 根据横竖比调整左右占比
+        if (ar < 0.9) { // 竖图
+          imagePane.style.flex = '0 0 40%';
+          mapPane.style.flex = '1 1 60%';
+        } else if (ar > 1.4) { // 横图
+          imagePane.style.flex = '0 0 55%';
+          mapPane.style.flex = '1 1 45%';
+        } else { // 接近方图
+          imagePane.style.flex = '0 0 50%';
+          mapPane.style.flex = '1 1 50%';
+        }
+        // 同步地图高度为图片的实际显示高度
+        // 需在布局完成后读取
+        window.requestAnimationFrame(() => {
+          const imgH = img.getBoundingClientRect().height;
+          const target = Math.max(320, Math.round(imgH));
+          iframe.style.height = `${target}px`;
+        });
+      };
+
+      if (img.complete) compute();
+      img.addEventListener('load', compute);
+      // 窗口尺寸变化时重新计算
+      const onResize = () => compute();
+      window.addEventListener('resize', onResize);
+    }
+
+    async function init() {
+      try {
+        // 从 templates/osm_simple.html 到 data 的相对路径
+        const resp = await fetch('/data/cases.json');
+        if (!resp.ok) throw new Error('Failed to load cases.json');
+        const allCases = await resp.json();
+        if (!Array.isArray(allCases) || allCases.length === 0) return;
+
+        // 打乱并仅展示 5 个（保持与 osm.html 一致）
+        shuffleArray(allCases);
+        const subset = allCases.slice(0, Math.min(5, allCases.length));
+
+        const root = document.getElementById('cards-root');
+        subset.forEach(c => {
+          const cardEl = buildCard(c);
+          root.appendChild(cardEl);
+          selectedExamples.push(cardEl);
+          adjustCardLayout(cardEl);
+        });
+      } catch (e) {
+        console.error(e);
+        alert('Failed to initialize cases: ' + e.message);
+      }
+    }
+
+    function submitAllData() {
+      const dataToSend = selectedExamples.map(example => {
+        const exampleId = example.id.split('-')[1];
+        return {
+          exampleId: Number(exampleId),
+          completeness: selections[`completeness-${exampleId}`],
+          correctness: selections[`correctness-${exampleId}`],
+          accuracy: selections[`accuracy-${exampleId}`]
+        };
+      });
+
+      fetch('/saveData', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataToSend)
+      })
+      .then(r => { if (!r.ok) throw new Error('Failed to submit: ' + r.statusText); return r.json(); })
+      .then(_ => alert('All data successfully submitted'))
+      .catch(e => { alert('Error submitting data: ' + e.message); console.error(e); });
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html> 
