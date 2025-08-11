@@ -3,31 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="refresh" content="3;url=osm.html">
-  <title>Redirecting...</title>
+  <title>Loading...</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
-    }
-    h1 {
-      color: #4CAF50;
-    }
-    p {
-      font-size: 20px;
-    }
+    html { background: linear-gradient(90deg, #FF4E50 10%, #F9D423 90%); overflow: hidden; height: 100vh; }
+    body { margin: 0; min-height: 100vh; background: linear-gradient(90deg, #FF4E50 10%, #F9D423 90%); }
+    .loader { height: 40px; width: 40px; position: absolute; left: 50%; margin-left: -20px; top: 50%; margin-top: -20px; }
+    .loader::before, .loader::after { content: ""; height: 40px; width: 40px; border: 8px solid rgba(255,255,255,.5); border-radius: 10px; position: absolute; top: 0; }
+    .loader::before { animation: animate 2s infinite linear; }
+    .loader::after { animation: animate2 2s infinite linear; }
+    @keyframes animate { 100% { transform: rotate(180deg) skew(360deg); } }
+    @keyframes animate2 { 100% { transform: rotate(-180deg) skew(-360deg); } }
+    .fallback { position: absolute; width: 100%; text-align: center; bottom: 40px; color: rgba(255,255,255,0.9); font-family: Arial, sans-serif; }
+    .fallback a { color: #fff; text-decoration: underline; }
   </style>
 </head>
 <body>
-  <h1>页面正在加载...</h1>
-  <p>如果您的浏览器没有自动跳转，您可以点击以下链接：</p>
-  <p><a href="templates/osm.html">点击这里进入 OSM 页面</a></p>
-
+  <div class="loader"></div>
+  <div class="fallback">如果未自动跳转，请点击 <a href="/osm_simple">这里进入 OSM 页面</a></div>
   <script>
-    // 在页面加载时，自动跳转到 osm.html
-    setTimeout(function() {
-      window.location.href = 'templates/osm.html';
-    }, 3000); // 3秒后跳转
+    setTimeout(function(){ window.location.href = '/osm_simple'; }, 2000);
   </script>
 </body>
+</html>

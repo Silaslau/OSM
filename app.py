@@ -8,28 +8,60 @@ import sqlite3
 import os
 import json
 import random
+import time
 from pathlib import Path
 from flask import send_from_directory
+from flask import redirect, render_template
 
 app = Flask(__name__, template_folder='.')
 CORS(app)
 
-# 从环境变量中读取数据库地址（Render 自动提供）
-DATABASE_URL = os.environ.get("DB_URL")
+# 统一获取数据库 URL（兼容 Render 常见变量名）
+def _resolve_db_url() -> str:
+    for key in [
+        'DATABASE_URL',            # Render 外部连接 URL
+        'DATABASE_INTERNAL_URL',   # Render 内网连接 URL（推荐同区域）
+        'DB_URL',                  # 你本地之前使用的变量
+        'POSTGRES_URL', 'POSTGRES_URI'
+    ]:
+        val = os.environ.get(key)
+        if val:
+            return val
+    return ''
+
+DATABASE_URL = _resolve_db_url()
 BASE_DIR = Path(__file__).resolve().parent
 DATA_FILE = BASE_DIR / 'data' / 'cases.json'
 
-# 建立数据库连接
+# 建立数据库连接（带重试与 keepalive）
 def get_db():
     if DATABASE_URL and psycopg2 is not None:
-        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        last_err = None
+        for attempt in range(5):
+            try:
+                conn = psycopg2.connect(
+                    DATABASE_URL,
+                    sslmode='require',
+                    connect_timeout=10,
+                    keepalives=1,
+                    keepalives_idle=30,
+                    keepalives_interval=10,
+                    keepalives_count=5,
+                )
+                return conn
+            except Exception as e:
+                last_err = e
+                # 指数退避重试：0.5s, 1s, 2s, 4s, 8s
+                time.sleep(0.5 * (2 ** attempt))
+        # 多次重试失败，抛出以便 Render 看到明确错误
+        raise last_err
     else:
-        # 本地调试使用 SQLite
+        # 本地调试使用 SQLite（Render 线上不会走到这里）
         db_path = BASE_DIR / 'osm_data.db'
         conn = sqlite3.connect(str(db_path))
-    return conn
+        return conn
 
-# 初始化表
+# 初始化表（分别支持 PG 与 SQLite）
 def init_db():
     if DATABASE_URL and psycopg2 is not None:
         # PostgreSQL
@@ -152,7 +184,11 @@ def view_data():
         return jsonify({'error': str(e)}), 500
 
 @app.route('/')
-def index():
+def root_redirect():
+    return render_template('index.html')
+
+@app.route('/index.html')
+def index_redirect():
     return render_template('index.html')
 
 @app.route('/osm')
@@ -209,8 +245,19 @@ def serve_maps(filename):
 def serve_annotated_maps(filename):
     return send_from_directory(BASE_DIR / 'annotated_maps', filename)
 
+@app.route('/healthz')
+def healthz():
+    return jsonify({
+        'status': 'ok',
+        'db_url_set': bool(DATABASE_URL),
+    })
+
 if __name__ == '__main__':
-    init_db()
+    try:
+        init_db()
+    except Exception as e:
+        # 数据库短暂不可用时不要让进程退出，Render 会重试健康检查
+        print(f"[WARN] init_db failed: {e}")
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
 
