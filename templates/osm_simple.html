@@ -23,11 +23,22 @@
     #submitBtn:disabled { background-color: #ccc; cursor: not-allowed; }
     #submitBtn:hover:not(:disabled) { background-color: #555; }
     @media (max-width: 900px) { .image-html { flex-direction: column; } .image-pane, .map-pane { flex: 1 1 auto; } .map-pane iframe { height: 60vh; } }
+    
+    /* Header form styles */
+    .header-form { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 0 auto 20px; padding: 12px 16px; background: #fff; border: 1px solid #ddd; border-radius: 8px; max-width: 680px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+    .name-label { font-weight: 600; color: #555; }
+    .name-input { flex: 0 1 320px; height: 38px; padding: 0 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; background: #fafafa; transition: border-color 0.2s, background-color 0.2s; }
+    .name-input:focus { outline: none; border-color: #4CAF50; background: #fff; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1 class="header-title">OSM Information Description Evaluation</h1>
+
+    <div class="header-form">
+      <span class="name-label">Your name</span>
+      <input id="usernameInput" class="name-input" type="text" placeholder="Enter your name" oninput="onNameInput(this.value)" />
+    </div>
 
     <div class="example-card" id="instruction">
       <h2>Instruction</h2>
@@ -95,12 +106,19 @@
       checkIfAllSelected();
     }
 
+    function onNameInput(val) {
+      const name = (val || '').trim();
+      try { localStorage.setItem('osm_username', name); } catch (e) {}
+      checkIfAllSelected();
+    }
+
     function checkIfAllSelected() {
       const allSelected = selectedExamples.every(example => {
         const exampleId = example.id.split('-')[1];
         return ['completeness', 'correctness', 'accuracy'].every(q => selections[`${q}-${exampleId}`] !== undefined);
       });
-      document.getElementById('submitBtn').disabled = !allSelected;
+      const hasName = ((document.getElementById('usernameInput')?.value) || '').trim().length > 0;
+      document.getElementById('submitBtn').disabled = !(allSelected && hasName);
     }
 
     function buildCard(caseItem) {
@@ -191,6 +209,15 @@
 
     async function init() {
       try {
+        // 恢复已填写的姓名
+        try {
+          const saved = localStorage.getItem('osm_username') || '';
+          if (saved) {
+            const input = document.getElementById('usernameInput');
+            if (input) input.value = saved;
+          }
+        } catch (e) {}
+
         // 从 templates/osm_simple.html 到 data 的相对路径
         const resp = await fetch('/data/cases.json');
         if (!resp.ok) throw new Error('Failed to load cases.json');
@@ -208,6 +235,8 @@
           selectedExamples.push(cardEl);
           adjustCardLayout(cardEl);
         });
+
+        checkIfAllSelected();
       } catch (e) {
         console.error(e);
         alert('Failed to initialize cases: ' + e.message);
@@ -215,13 +244,15 @@
     }
 
     function submitAllData() {
+      const name = ((document.getElementById('usernameInput')?.value) || '').trim();
       const dataToSend = selectedExamples.map(example => {
         const exampleId = example.id.split('-')[1];
         return {
           example_id: Number(exampleId),
           completeness: selections[`completeness-${exampleId}`],
           correctness: selections[`correctness-${exampleId}`],
-          accuracy: selections[`accuracy-${exampleId}`]
+          accuracy: selections[`accuracy-${exampleId}`],
+          username: name
         };
       });
 

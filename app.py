@@ -1,3 +1,10 @@
+"""\
+后端服务（Flask）
+- 提供 OSM 评测页面与静态资源服务
+- 读取 `data/cases.json` 进行数据驱动渲染
+- 采集用户反馈并写入数据库（Render 上优先 Postgres，本地回退 SQLite）
+- 针对 Render 环境做了连接重试、keepalive、健康检查与轻量迁移
+"""
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 try:
@@ -18,6 +25,10 @@ CORS(app)
 
 # 统一获取数据库 URL（兼容 Render 常见变量名）
 def _resolve_db_url() -> str:
+    """解析数据库连接 URL。
+    - 兼容 Render 常见变量：DATABASE_INTERNAL_URL（推荐）、DATABASE_URL、DB_URL、POSTGRES_URL/URI。
+    - 存在即返回第一优先的值；均不存在返回空字符串，表示走 SQLite 本地开发模式。
+    """
     for key in [
         'DATABASE_URL',            # Render 外部连接 URL
         'DATABASE_INTERNAL_URL',   # Render 内网连接 URL（推荐同区域）
@@ -35,6 +46,10 @@ DATA_FILE = BASE_DIR / 'data' / 'cases.json'
 
 # 建立数据库连接（带重试与 keepalive）
 def get_db():
+    """获取数据库连接。
+    - 若存在 Postgres 配置且安装了 psycopg2，则以 require SSL 连接，启用 keepalive；失败做 5 次指数退避重试。
+    - 否则回退到本地 SQLite（仅用于本地开发）。
+    """
     if DATABASE_URL and psycopg2 is not None:
         last_err = None
         for attempt in range(5):
@@ -62,6 +77,10 @@ def get_db():
         return conn
 
 def _pg_migrate_example_id_bigint(conn):
+    """将 feedback.example_id 由 INTEGER 迁移为 BIGINT（幂等）。
+    - 解决 13 位时间戳等大整数写入时的溢出问题。
+    - 若已为 BIGINT 或迁移失败，仅记录日志不阻断启动。
+    """
     try:
         with conn.cursor() as cur:
             # 将 example_id 升级为 BIGINT，已是 BIGINT 时不会报错
@@ -81,8 +100,33 @@ def _pg_migrate_example_id_bigint(conn):
         # 迁移失败不阻塞启动，仅记录
         print(f"[WARN] migrate example_id->BIGINT failed: {e}")
 
+def _ensure_username_column(conn):
+    """为 feedback 表增加 username 列（幂等）。
+    - PostgreSQL: 使用 IF NOT EXISTS。
+    - SQLite: 直接尝试 ADD COLUMN，若已存在则忽略错误。
+    """
+    try:
+        if DATABASE_URL and psycopg2 is not None:
+            with conn.cursor() as cur:
+                cur.execute("ALTER TABLE feedback ADD COLUMN IF NOT EXISTS username TEXT")
+                conn.commit()
+        else:
+            cur = conn.cursor()
+            try:
+                cur.execute("ALTER TABLE feedback ADD COLUMN username TEXT")
+                conn.commit()
+            except Exception:
+                # 已存在列时忽略
+                pass
+    except Exception as e:
+        print(f"[WARN] ensure username column failed: {e}")
+
 # 初始化表（分别支持 PG 与 SQLite）
 def init_db():
+    """初始化数据库表结构。
+    - Postgres：创建 feedback 表并保证 example_id 为 BIGINT；随后尝试做幂等迁移。
+    - SQLite：创建 feedback 表（SQLite INTEGER 为 64 位，足够大）。
+    """
     if DATABASE_URL and psycopg2 is not None:
         # PostgreSQL
         with get_db() as conn:
@@ -93,12 +137,15 @@ def init_db():
                         example_id BIGINT,
                         completeness TEXT,
                         correctness TEXT,
-                        accuracy TEXT
+                        accuracy TEXT,
+                        username TEXT
                     )
                 ''')
                 conn.commit()
             # 尝试迁移旧表结构中的 example_id: INTEGER -> BIGINT
             _pg_migrate_example_id_bigint(conn)
+            # 确保存在 username 列
+            _ensure_username_column(conn)
     else:
         # SQLite
         conn = get_db()
@@ -109,32 +156,40 @@ def init_db():
                 example_id INTEGER,
                 completeness TEXT,
                 correctness TEXT,
-                accuracy TEXT
+                accuracy TEXT,
+                username TEXT
             )
         ''')
         conn.commit()
+        # 旧表无 username 时补充
+        _ensure_username_column(conn)
         conn.close()
 
 # 插入数据
-def insert_data(example_id, completeness, correctness, accuracy):
+def insert_data(example_id, completeness, correctness, accuracy, username=None):
+    """通用插入函数：写入一条反馈记录。"""
     with get_db() as conn:
         with conn.cursor() as cur:
             if DATABASE_URL and psycopg2 is not None:
                 # PostgreSQL
                 cur.execute('''
-                    INSERT INTO feedback (example_id, completeness, correctness, accuracy)
-                    VALUES (%s, %s, %s, %s)
-                ''', (example_id, completeness, correctness, accuracy))
+                    INSERT INTO feedback (example_id, completeness, correctness, accuracy, username)
+                    VALUES (%s, %s, %s, %s, %s)
+                ''', (example_id, completeness, correctness, accuracy, username))
             else:
                 # SQLite
                 cur.execute('''
-                    INSERT INTO feedback (example_id, completeness, correctness, accuracy)
-                    VALUES (?, ?, ?, ?)
-                ''', (example_id, completeness, correctness, accuracy))
+                    INSERT INTO feedback (example_id, completeness, correctness, accuracy, username)
+                    VALUES (?, ?, ?, ?, ?)
+                ''', (example_id, completeness, correctness, accuracy, username))
             conn.commit()
 
 @app.route('/saveData', methods=['POST'])
 def save_data():
+    """接收前端提交的多条评测结果并入库。
+    - 兼容字段：example_id / exampleId / id（优先），其余为 completeness/correctness/accuracy。
+    - 对缺失或非数字 id 的记录跳过并记录警告。
+    """
     data = request.json
     print(f"收到数据: {data}")
     
@@ -148,6 +203,7 @@ def save_data():
         completeness = item.get('completeness')
         correctness = item.get('correctness')
         accuracy = item.get('accuracy')
+        username = item.get('username')
         
         if example_id is None:
             print(f"[WARN] 跳过一条因缺少 example_id 的记录: {item}")
@@ -158,18 +214,18 @@ def save_data():
             with get_db() as conn:
                 with conn.cursor() as cur:
                     cur.execute('''
-                        INSERT INTO feedback (example_id, completeness, correctness, accuracy)
-                        VALUES (%s, %s, %s, %s)
-                    ''', (example_id, completeness, correctness, accuracy))
+                        INSERT INTO feedback (example_id, completeness, correctness, accuracy, username)
+                        VALUES (%s, %s, %s, %s, %s)
+                    ''', (example_id, completeness, correctness, accuracy, username))
                     conn.commit()
         else:
             # SQLite
             conn = get_db()
             cur = conn.cursor()
             cur.execute('''
-                INSERT INTO feedback (example_id, completeness, correctness, accuracy)
-                VALUES (?, ?, ?, ?)
-            ''', (example_id, completeness, correctness, accuracy))
+                INSERT INTO feedback (example_id, completeness, correctness, accuracy, username)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (example_id, completeness, correctness, accuracy, username))
             conn.commit()
             conn.close()
     
@@ -177,6 +233,7 @@ def save_data():
 
 @app.route('/getFeedback', methods=['GET'])
 def get_feedback():
+    """返回 feedback 全表数据（调试用途）。"""
     try:
         if DATABASE_URL and psycopg2 is not None:
             # PostgreSQL
@@ -198,6 +255,7 @@ def get_feedback():
 
 @app.route('/viewData')
 def view_data():
+    """以 JSON 形式返回 feedback（包含列名），便于前端或导出。"""
     try:
         with get_db() as conn:
             with conn.cursor() as cur:
@@ -216,18 +274,22 @@ def view_data():
 
 @app.route('/')
 def root_redirect():
+    """站点首页：展示加载动画的 index.html，随后前端跳转到 /osm_simple。"""
     return render_template('index.html')
 
 @app.route('/index.html')
 def index_redirect():
+    """兼容 /index.html 访问入口。"""
     return render_template('index.html')
 
 @app.route('/osm')
 def osm():
+    """保留的旧版页面入口。"""
     return render_template('templates/osm.html')
 
-# ===== 新增：基于 JSON 的评测页面 =====
+# ===== 基于 JSON 的评测页面 =====
 def load_all_cases():
+    """读取所有案例 JSON 数据。"""
     if not DATA_FILE.exists():
         return []
     with open(DATA_FILE, 'r', encoding='utf-8') as f:
@@ -235,6 +297,9 @@ def load_all_cases():
 
 @app.route('/evaluation')
 def evaluation():
+    """服务端抽样渲染评测页面。
+    - 参数：n=数量(默认15)、seed=随机种子（复现实验）。
+    """
     try:
         all_cases = load_all_cases()
         if not all_cases:
@@ -250,34 +315,41 @@ def evaluation():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# ===== 新增：简化版页面（前端从 cases.json 抽样） =====
+# ===== 简化版页面（前端从 cases.json 抽样） =====
 @app.route('/osm_simple')
 def osm_simple():
+    """前端自取 cases.json 并随机展示若干案例的简单页面。"""
     return render_template('templates/osm_simple.html')
 
-# ===== 新增：静态资源路由（供前端直接访问） =====
+# ===== 静态资源路由（供前端直接访问） =====
 @app.route('/data/<path:filename>')
 def serve_data(filename):
+    """提供 data/ 目录下的静态 JSON 文件。"""
     return send_from_directory(BASE_DIR / 'data', filename)
 
 @app.route('/images/<path:filename>')
 def serve_images(filename):
+    """提供 images/ 目录下的静态图片（手工整理的图）。"""
     return send_from_directory(BASE_DIR / 'images', filename)
 
 @app.route('/img/<path:filename>')
 def serve_img(filename):
+    """提供 img/ 目录下的图片（自动脚本生成或分组目录）。"""
     return send_from_directory(BASE_DIR / 'img', filename)
 
 @app.route('/maps/<path:filename>')
 def serve_maps(filename):
+    """提供 maps/ 下的地图页面（含 hk_**** 等分组子目录）。"""
     return send_from_directory(BASE_DIR / 'maps', filename)
 
 @app.route('/annotated_maps/<path:filename>')
 def serve_annotated_maps(filename):
+    """提供 annotated_maps/ 下的标注版地图页面。"""
     return send_from_directory(BASE_DIR / 'annotated_maps', filename)
 
 @app.route('/healthz')
 def healthz():
+    """健康检查：用于 Render 等平台在冷启动时探活。"""
     return jsonify({
         'status': 'ok',
         'db_url_set': bool(DATABASE_URL),
@@ -291,7 +363,7 @@ if __name__ == '__main__':
         print(f"[WARN] init_db failed: {e}")
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-
+    
     # PORT=8000 python3 app.py                                            
     # http://127.0.0.1:8000/osm_simple
     # http://127.0.0.1:8000
