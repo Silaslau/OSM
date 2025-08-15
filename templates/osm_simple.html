@@ -256,14 +256,31 @@
         };
       });
 
+      // 禁用提交按钮，防止重复提交
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
       fetch('/saveData', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dataToSend)
       })
       .then(r => { if (!r.ok) throw new Error('Failed to submit: ' + r.statusText); return r.json(); })
-      .then(_ => alert('All data successfully submitted'))
-      .catch(e => { alert('Error submitting data: ' + e.message); console.error(e); });
+      .then(_ => {
+        // 提交成功，清除本地存储并跳转
+        try { localStorage.removeItem('osm_username'); } catch (e) {}
+        
+        // 立即跳转到感谢页面
+        window.location.href = '/thank_you';
+      })
+      .catch(e => { 
+        alert('Error submitting data: ' + e.message); 
+        console.error(e);
+        // 出错时恢复按钮状态
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit All Data';
+      });
     }
 
     window.onload = init;

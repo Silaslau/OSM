@@ -272,6 +272,38 @@ def view_data():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/exportData')
+def export_data():
+    """导出 feedback 数据为 CSV 格式。"""
+    try:
+        import csv
+        import io
+        
+        with get_db() as conn:
+            with conn.cursor() as cur:
+                if DATABASE_URL and psycopg2 is not None:
+                    cur.execute("SELECT * FROM feedback ORDER BY id")
+                else:
+                    cur.execute("SELECT * FROM feedback ORDER BY id")
+                rows = cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+        
+        # 创建 CSV 内容
+        output = io.StringIO()
+        writer = csv.writer(output)
+        writer.writerow(columns)  # 写入列名
+        writer.writerows(rows)    # 写入数据
+        
+        # 返回 CSV 响应
+        from flask import Response
+        return Response(
+            output.getvalue(),
+            mimetype='text/csv',
+            headers={'Content-Disposition': 'attachment; filename=feedback_data.csv'}
+        )
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/')
 def root_redirect():
     """站点首页：展示加载动画的 index.html，随后前端跳转到 /osm_simple。"""
@@ -320,6 +352,11 @@ def evaluation():
 def osm_simple():
     """前端自取 cases.json 并随机展示若干案例的简单页面。"""
     return render_template('templates/osm_simple.html')
+
+@app.route('/thank_you')
+def thank_you():
+    """提交成功后的感谢页面。"""
+    return render_template('templates/thank_you.html')
 
 # ===== 静态资源路由（供前端直接访问） =====
 @app.route('/data/<path:filename>')

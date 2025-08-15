@@ -143,6 +143,7 @@ def main():
     parser.add_argument('--maps', default='', help='额外地图目录，逗号分隔，默认同时搜索 maps 与 annotated_maps')
     parser.add_argument('--static', default=str(DEFAULT_STATIC_DIR), help='文本描述根目录，默认 static/')
     args = parser.parse_args()
+    # python auto_add_cases.py --img-subdir pku --json data/cases.json --overwrite --exts .jpg,.jpeg,.png --maps maps/pku --static static/pku
 
     exts = [e.strip().lower() if e.strip().startswith('.') else '.' + e.strip().lower() for e in args.exts.split(',') if e.strip()]
 
