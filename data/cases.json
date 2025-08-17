@@ -263,32 +263,32 @@
   {
     "id": 1749082712974,
     "title": "HK Example",
-    "image_src": "/img/hk_0605/1749082712974_annotated.jpg",
-    "map_src": "/maps/hk_0605/1749082712974.html",
+    "image_src": "../img/hk_0605/1749082712974_annotated.jpg",
+    "map_src": "../maps/hk_0605/1749082712974_outline_paired.html",
     "description": [
-      "<strong>1. Tower 3:</strong><br>   Located between the left 70 to left 30 degree angle, Tower 3 is a striking structure with a glass facade and balconies. This modern building is approximately 20 meters away from us. Adjoining Tower 3, you can see a barrier fence that adds a layer of security and separation from the surrounding area.<br>",
-      "<strong>2. Tower 1:</strong><br>   Positioned from the center to the right 20 degree angle, Tower 1 is a tall glass building that stands prominently in the distance, approximately 150 meters away. This impressive structure is accompanied by several adjoining features, including a building retail, a natural wood, a barrier wall, and a barrier fence, which together create a dynamic and bustling environment.<br>",
-      "<strong>3. Block 6:</strong><br>   Situated between the right 10 to right 30 degree angle, Block 6 features a glass facade with balconies, similar to Tower 3. This building is also approximately 20 meters away. Nearby, you can find Block 5, which is a type of apartment building, and another building, adding to the residential feel of this area.<br>",
-      "<strong>4. Tower 2:</strong><br>   Found between the right 30 to right 70 degree angle, Tower 2 is another modern structure with a glass facade and balconies. It is located about 50 meters from our current position. Surrounding Tower 2, you will notice a variety of features, including a natural wood, a landuse recreation ground, and multiple barrier fences, which together create a blend of natural and recreational spaces.<br>"
+      "<strong>1. **Tower 3:**:</strong><br>   Located between the left 70 to left 30 degree angle, Tower 3 is a striking structure with a glass facade and balconies. This modern building is approximately 20 meters away from us. Adjoining Tower 3, you can see a barrier fence that adds a layer of security and separation from the surrounding area.<br>",
+      "<strong>2. **Tower 1:**:</strong><br>   Positioned from the center to the right 20 degree angle, Tower 1 is a tall glass building that stands prominently in the distance, approximately 150 meters away. This impressive structure is accompanied by several adjoining features, including a building retail, a natural wood, a barrier wall, and a barrier fence, which together create a dynamic and bustling environment.<br>",
+      "<strong>3. **Block 6:**:</strong><br>   Situated between the right 10 to right 30 degree angle, Block 6 features a glass facade with balconies, similar to Tower 3. This building is also approximately 20 meters away. Nearby, you can find Block 5, which is a type of apartment building, and another building, adding to the residential feel of this area.<br>",
+      "<strong>4. **Tower 2:**:</strong><br>   Found between the right 30 to right 70 degree angle, Tower 2 is another modern structure with a glass facade and balconies. It is located about 50 meters from our current position. Surrounding Tower 2, you will notice a variety of features, including a natural wood, a landuse recreation ground, and multiple barrier fences, which together create a blend of natural and recreational spaces.<br>"
     ]
   },
   {
     "id": 1749082718276,
     "title": "HK Example",
-    "image_src": "/img/hk_0605/1749082718276_annotated.jpg",
-    "map_src": "/maps/hk_0605/1749082718276.html",
+    "image_src": "../img/hk_0605/1749082718276_annotated.jpg",
+    "map_src": "../maps/hk_0605/1749082718276_outline_paired.html",
     "description": [
-      "<strong>1. K.CITY (Left 70 to Left 30 Degree):</strong><br>   Located to the far left of the scene, K.CITY is a high-rise building adorned with numerous balconies. Its modern design and vertical structure make it a prominent feature, standing approximately 10 meters from our viewpoint. The building is surrounded by a variety of adjoining features, including several denotation avenues, pedestrian highways, flowerbeds, private access areas, fences, and grassy land.<br>",
-      "<strong>2. K.CITY (Left 30 to Left 10 Degree):</strong><br>   Moving slightly to the right, we encounter another view of K.CITY, this time positioned around 70 meters away. This high-rise building, similar in appearance to the previous one, also features multiple balconies. The surrounding area includes denotation avenues, pedestrian highways, flowerbeds, private access areas, fences, and grassy land, creating a harmonious urban landscape.<br>",
-      "<strong>3. Upper River Bank (Center to Right 20 Degree):</strong><br>   Centrally located and extending slightly to the right, the Upper River Bank is another high-rise building with balconies, situated approximately 150 meters from us. This building is part of a bustling area, flanked by roads, other buildings, and a barrier wall. Notably, it is adjacent to the 啟德河畔公園, a park area that adds a touch of greenery to the urban environment.<br>",
-      "<strong>4. Mansion A (Right 20 to Right 30 Degree):</strong><br>   To the far right, Mansion A is a lower residential building characterized by its square windows. Positioned about 100 meters away, this building offers a more intimate residential feel compared to the towering high-rises. It is neighbored by Mansion B, an apartment building, and other structures, contributing to a diverse architectural scene.<br>"
+      "<strong>1. **K.CITY (Left 70 to Left 30 Degree):**:</strong><br>   Located to the far left of the scene, K.CITY is a high-rise building adorned with numerous balconies. Its modern design and vertical structure make it a prominent feature, standing approximately 10 meters from our viewpoint. The building is surrounded by a variety of adjoining features, including several denotation avenues, pedestrian highways, flowerbeds, private access areas, fences, and grassy land.<br>",
+      "<strong>2. **K.CITY (Left 30 to Left 10 Degree):**:</strong><br>   Moving slightly to the right, we encounter another view of K.CITY, this time positioned around 70 meters away. This high-rise building, similar in appearance to the previous one, also features multiple balconies. The surrounding area includes denotation avenues, pedestrian highways, flowerbeds, private access areas, fences, and grassy land, creating a harmonious urban landscape.<br>",
+      "<strong>3. **Upper River Bank (Center to Right 20 Degree):**:</strong><br>   Centrally located and extending slightly to the right, the Upper River Bank is another high-rise building with balconies, situated approximately 150 meters from us. This building is part of a bustling area, flanked by roads, other buildings, and a barrier wall. Notably, it is adjacent to the 啟德河畔公園, a park area that adds a touch of greenery to the urban environment.<br>",
+      "<strong>4. **Mansion A (Right 20 to Right 30 Degree):**:</strong><br>   To the far right, Mansion A is a lower residential building characterized by its square windows. Positioned about 100 meters away, this building offers a more intimate residential feel compared to the towering high-rises. It is neighbored by Mansion B, an apartment building, and other structures, contributing to a diverse architectural scene.<br>"
     ]
   },
   {
     "id": 1749082721996,
     "title": "HK Example",
-    "image_src": "/img/hk_0605/1749082721996_annotated.jpg",
-    "map_src": "/maps/hk_0605/1749082721996.html",
+    "image_src": "../img/hk_0605/1749082721996_annotated.jpg",
+    "map_src": "../maps/hk_0605/1749082721996_outline_paired.html",
     "description": [
       "<strong>1. Victoria Skye:</strong><br>Located between the left 70 to left 30 degree angle of our viewpoint, Victoria Skye is a tall building that immediately catches the eye with its striking mix of blue and orange colors. The building features numerous balconies, adding to its dynamic appearance. It stands approximately 50 meters away from us. Surrounding Victoria Skye, you can see various adjoining features such as a denotation avenue, a landuse flowerbed, private access points, barrier walls, a barrier fence, and a highway footway.<br>",
       "<strong>2. Tower 1:</strong><br>Positioned from the left 10 to right 50 degree angle, Tower 1 is another tall building characterized by its gray facade and multiple balconies. This building is much closer, at an estimated distance of 20 meters from our current location. Adjacent to Tower 1 is Tower 2, which is also an apartment building, creating a cohesive residential area.<br>"
@@ -297,28 +297,38 @@
   {
     "id": 1749082728959,
     "title": "HK Example",
-    "image_src": "/img/hk_0605/1749082728959_annotated.jpg",
-    "map_src": "/maps/hk_0605/1749082728959.html",
+    "image_src": "../img/hk_0605/1749082728959_annotated.jpg",
+    "map_src": "../maps/hk_0605/1749082728959_outline_paired.html",
     "description": [
-      "<strong>1. T-Loft@Kai Tak:</strong><br>   Located between the left 60 to left 10 degree angle of our viewpoint, T-Loft@Kai Tak is a cluster of multiple tall residential buildings. These buildings are easily recognizable by their striking yellow and white facades, which add a vibrant touch to the skyline. The buildings are approximately 100 meters away from us. Surrounding T-Loft@Kai Tak, you can find several notable features including Tak Long Estate, Kai Fook Kui on Muk Long Street, and various other buildings, roads, and natural wood areas.<br>",
-      "<strong>2. Victoria Skye:</strong><br>   Positioned from the right 10 to right 70 degree angle, Victoria Skye is a prominent tall building that features a sophisticated mix of beige and dark colors. This building is much closer to us, at an approximate distance of just 10 meters. The area around Victoria Skye includes a variety of features such as a denotation avenue, a landuse flowerbed, private access points, barrier walls and fences, and a highway footway. These elements contribute to the dynamic and well-structured environment surrounding Victoria Skye.<br>"
+      "<strong>1. **T-Loft@Kai Tak:**:</strong><br>   Located between the left 60 to left 10 degree angle of our viewpoint, T-Loft@Kai Tak is a cluster of multiple tall residential buildings. These buildings are easily recognizable by their striking yellow and white facades, which add a vibrant touch to the skyline. The buildings are approximately 100 meters away from us. Surrounding T-Loft@Kai Tak, you can find several notable features including Tak Long Estate, Kai Fook Kui on Muk Long Street, and various other buildings, roads, and natural wood areas.<br>",
+      "<strong>2. **Victoria Skye:**:</strong><br>   Positioned from the right 10 to right 70 degree angle, Victoria Skye is a prominent tall building that features a sophisticated mix of beige and dark colors. This building is much closer to us, at an approximate distance of just 10 meters. The area around Victoria Skye includes a variety of features such as a denotation avenue, a landuse flowerbed, private access points, barrier walls and fences, and a highway footway. These elements contribute to the dynamic and well-structured environment surrounding Victoria Skye.<br>"
     ]
   },
   {
     "id": 1749082977709,
     "title": "HK Example",
-    "image_src": "/img/hk_0605/1749082977709_annotated.jpg",
-    "map_src": "/maps/hk_0605/1749082977709.html",
+    "image_src": "../img/hk_0605/1749082977709_annotated.jpg",
+    "map_src": "../maps/hk_0605/1749082977709_outline_paired.html",
     "description": [
-      "<strong>1. AIRSIDE:</strong><br>   Located from the left 70 to left 10 degrees of our viewpoint, AIRSIDE is a modern high-rise building that immediately catches the eye with its sleek, reflective glass facade. This contemporary structure stands approximately 80 meters away from us, creating a striking visual with its shimmering surface that mirrors the surrounding environment. AIRSIDE is surrounded by several notable features, including the Cullinan Sky residential buildings, the Kai Tak train station, and the scenic 啟德河畔公園 (Kai Tak Riverside Park).<br>",
-      "<strong>2. Cullinan Sky:</strong><br>   Positioned from the right 10 to right 70 degrees, Cullinan Sky is a cluster of high-rise residential buildings that are easily recognizable by their numerous balconies. These buildings are situated about 150 meters from our current location. The Cullinan Sky complex is adjacent to several key features, including the AIRSIDE building, the Kai Tak train station, and various infrastructure elements such as roads, a barrier fence, and footways. The area also includes landscaped elements like flowerbeds and grassy construction land, adding a touch of greenery to the urban landscape.<br>"
+      "<strong>1. **AIRSIDE:**:</strong><br>   Located from the left 70 to left 10 degrees of our viewpoint, AIRSIDE is a modern high-rise building that immediately catches the eye with its sleek, reflective glass facade. This contemporary structure stands approximately 80 meters away from us, creating a striking visual with its shimmering surface that mirrors the surrounding environment. AIRSIDE is surrounded by several notable features, including the Cullinan Sky residential buildings, the Kai Tak train station, and the scenic 啟德河畔公園 (Kai Tak Riverside Park).<br>",
+      "<strong>2. **Cullinan Sky:**:</strong><br>   Positioned from the right 10 to right 70 degrees, Cullinan Sky is a cluster of high-rise residential buildings that are easily recognizable by their numerous balconies. These buildings are situated about 150 meters from our current location. The Cullinan Sky complex is adjacent to several key features, including the AIRSIDE building, the Kai Tak train station, and various infrastructure elements such as roads, a barrier fence, and footways. The area also includes landscaped elements like flowerbeds and grassy construction land, adding a touch of greenery to the urban landscape.<br>"
+    ]
+  },
+  {
+    "id": 1750827405190,
+    "title": "PKU Example",
+    "image_src": "../img/pku/1750827405190_annotated.jpg",
+    "map_src": "../maps/pku/1750827405190_outline_paired.html",
+    "description": [
+      "<strong>1. **Peking University:**:</strong><br>   Located from the center to about 10 degrees to the left, Peking University is immediately noticeable due to its large entrance gate adorned with a striking red banner. This prominent feature is situated approximately 5 meters from our current viewpoint. The gate serves as a welcoming landmark, and nearby, you can find Wūsì Road, which provides permissive access. Additionally, the Wumei store is an inclusive node in this area, adding to the bustling atmosphere.<br>",
+      "<strong>2. **School of Journalism and Communication:**:</strong><br>   Positioned between 10 to 30 degrees to the right, the School of Journalism and Communication is a multi-story gray building characterized by its numerous windows. This structure stands about 30 meters away from us. The building&#x27;s modern design and substantial height make it a significant feature in the scene. It is conveniently located adjacent to a road, ensuring easy access for students and visitors alike.<br>"
     ]
   },
   {
     "id": 1750827808626,
     "title": "PKU Example",
     "image_src": "../img/pku/1750827808626_annotated.jpg",
-    "map_src": "../maps/pku/1750827808626.html",
+    "map_src": "../maps/pku/1750827808626_outline_paired.html",
     "description": [
       "<strong>1. 24楼:</strong><br>Located slightly to the left of the center of the scene, the 24楼 is a multi-story building that immediately catches the eye with its traditional architectural elements. The building features striking red windows that add a vibrant touch to its facade. The number &quot;24&quot; is prominently displayed, making it easy to identify. This building is approximately 5 meters away from our current viewpoint, giving us a clear and detailed look at its unique characteristics. Adjoining the 24楼 is a highway footway, providing a modern contrast to the traditional design of the building.<br>"
     ]
@@ -327,7 +337,7 @@
     "id": 1750827862868,
     "title": "PKU Example",
     "image_src": "../img/pku/1750827862868_annotated.jpg",
-    "map_src": "../maps/pku/1750827862868.html",
+    "map_src": "../maps/pku/1750827862868_outline_paired.html",
     "description": [
       "<strong>1. 34A and 34B Buildings:</strong><br>Located within the left 70 to right 10-degree range of our viewpoint, the 34A and 34B Buildings are prominent features in this scene. These buildings are characterized by their striking white and blue exteriors, which create a visually appealing contrast. Each building is adorned with numerous balconies, adding to their architectural charm and providing residents with outdoor spaces. The buildings are situated approximately 10 meters from where we are standing, making them easily visible and a significant part of the immediate landscape.<br>"
     ]
@@ -336,7 +346,7 @@
     "id": 1750828352194,
     "title": "PKU Example",
     "image_src": "../img/pku/1750828352194_annotated.jpg",
-    "map_src": "../maps/pku/1750828352194.html",
+    "map_src": "../maps/pku/1750828352194_outline_paired.html",
     "description": [
       "<strong>1. **New Sun Student Center:**:</strong><br>   Located within the left 30 to right 30 degree range of our viewpoint, the New Sun Student Center is a prominent feature in the scene. This large, multi-story building is easily recognizable by its gray facade and numerous windows, which give it a modern and welcoming appearance. The building is approximately 30 meters away from us, making it a central and accessible hub for students and visitors alike. Adjoining the Student Center, you will find several key features including access permissive pathways, multiple highway footways, highway steps, and a bridge, all of which contribute to the ease of movement around the area. Additionally, the inclusive node 青年研究中心 (Youth Research Center) is associated with this location, indicating a space dedicated to youth-oriented research and activities.<br>"
     ]
@@ -345,7 +355,7 @@
     "id": 1750836975895,
     "title": "PKU Example",
     "image_src": "../img/pku/1750836975895_annotated.jpg",
-    "map_src": "../maps/pku/1750836975895.html",
+    "map_src": "../maps/pku/1750836975895_outline_paired.html",
     "description": [
       "<strong>1. **Teaching Building No. 2:**:</strong><br>- <strong>Location:</strong> Positioned between the left 70 to left 50 degree angle from our current viewpoint.<br>\n- <strong>Key Visual Characteristics:</strong> This building is easily identifiable by its white and blue facade, which spans multiple floors. The color scheme gives it a modern and clean appearance.<br>\n- <strong>Approximate Distance:</strong> It is situated approximately 50 to 100 meters away from us.<br>\n- <strong>Adjoining Features:</strong> Surrounding this building, you will notice a highway footway and highway steps, which provide easy access. Additionally, Uncle M&#x27;s CampusMart is located nearby, offering convenient amenities for students and visitors.<br>",
       "<strong>2. **Science Building No. 2:**:</strong><br>- <strong>Location:</strong> This building can be seen from the left 30 to right 70 degree angle.<br>\n- <strong>Key Visual Characteristics:</strong> The Science Building No. 2 is constructed with gray bricks and features large windows that allow plenty of natural light to flood the interior. It also has multiple floors, making it a prominent structure in the scene.<br>\n- <strong>Approximate Distance:</strong> It is relatively close, approximately 5 to 30 meters from our current position.<br>\n- <strong>Adjoining Features:</strong> Adjacent to this building, you will find a leisure garden, which provides a serene environment for relaxation. There is also a highway path nearby, facilitating easy movement around the campus.<br>"
@@ -355,7 +365,7 @@
     "id": 1750836993503,
     "title": "PKU Example",
     "image_src": "../img/pku/1750836993503_annotated.jpg",
-    "map_src": "../maps/pku/1750836993503.html",
+    "map_src": "../maps/pku/1750836993503_outline_paired.html",
     "description": [
       "<strong>1. Teaching Building No. 2:</strong><br>Located from the left 70 to right 10 degree angle of our viewpoint, Teaching Building No. 2 is a prominent multi-story structure. The facade proudly displays the name &#x27;Lee Shau Kee Building,&#x27; making it easily identifiable. This building is approximately 10 meters away from us, providing a close-up view of its architectural details. The building is surrounded by several adjoining features, including a road, a highway footway, and highway steps, which facilitate easy access. Additionally, within its vicinity, you can find the 3W咖啡餐吧（北京大学店） and Uncle M&#x27;s CampusMart, adding a touch of convenience and leisure to the area.<br>"
     ]
@@ -364,7 +374,7 @@
     "id": 1750837018151,
     "title": "PKU Example",
     "image_src": "../img/pku/1750837018151_annotated.jpg",
-    "map_src": "../maps/pku/1750837018151.html",
+    "map_src": "../maps/pku/1750837018151_outline_paired.html",
     "description": [
       "<strong>1. **Science Building No. 1:**:</strong><br>   Located within the left 70 to right 10-degree range of our viewpoint, Science Building No. 1 is a prominent multi-story structure. Its exterior is adorned with tiles, giving it a clean and modern appearance. The building is equipped with numerous air conditioning units, which are visible on its facade. This building is situated approximately 5 to 50 meters from where we are standing, making it one of the closer structures in our view.<br>",
       "<strong>2. **Science Teaching Building:**:</strong><br>   Adjoining Science Building No. 1, the Science Teaching Building is a type of university building. While specific visual details are not provided, it is likely to share architectural similarities with Science Building No. 1, given their proximity and shared purpose within the university setting.<br>",
@@ -378,7 +388,7 @@
     "id": 1750837032268,
     "title": "PKU Example",
     "image_src": "../img/pku/1750837032268_annotated.jpg",
-    "map_src": "../maps/pku/1750837032268.html",
+    "map_src": "../maps/pku/1750837032268_outline_paired.html",
     "description": [
       "<strong>1. **Teaching Building No. 2 (Left View):**:</strong><br>   Located from the left 70 to left 10 degrees of our viewpoint, Teaching Building No. 2 is a prominent multi-story structure. It features large windows that allow ample natural light to flood the interior, and a distinctive glass structure crowns the roof, adding a modern touch to its design. This building is approximately 10 meters away from us. Surrounding it, you can see a road and several highway footways, along with highway steps that provide access. Notably, Uncle M&#x27;s CampusMart is an inclusive node within this area, likely serving as a convenient spot for students and staff to grab essentials.<br>",
       "<strong>2. **Teaching Building No. 2 (Right View):**:</strong><br>   Shifting our gaze to the right, from right 10 to right 30 degrees, we can see another part of Teaching Building No. 2, partially obscured by trees. This section of the building is about 30 meters away from our current position. Similar to the left view, this area is also bordered by a road and multiple highway footways, with highway steps providing access. Uncle M&#x27;s CampusMart is again a notable feature here, indicating its central role in the campus layout.<br>"
@@ -388,16 +398,23 @@
     "id": 1750837075302,
     "title": "PKU Example",
     "image_src": "../img/pku/1750837075302_annotated.jpg",
-    "map_src": "../maps/pku/1750837075302.html",
+    "map_src": "../maps/pku/1750837075302_outline_paired.html",
     "description": [
       "<strong>1. Teaching Building No. 2:</strong><br>Located within the left 30 to right 30-degree range of our viewpoint, Teaching Building No. 2 is a prominent multi-story structure. Its facade is characterized by numerous glass windows, allowing natural light to flood the interior spaces. A distinctive red sign adds a splash of color and makes the building easily identifiable. This building is approximately 20 meters away from us, making it quite accessible. <br>"
     ]
   },
   {
+    "id": 1750837087065,
+    "title": "PKU Example",
+    "image_src": "../img/pku/1750837087065_annotated.jpg",
+    "map_src": "../maps/pku/1750837087065_outline_paired.html",
+    "description": []
+  },
+  {
     "id": 1750837381764,
     "title": "PKU Example",
     "image_src": "../img/pku/1750837381764_annotated.jpg",
-    "map_src": "../maps/pku/1750837381764.html",
+    "map_src": "../maps/pku/1750837381764_outline_paired.html",
     "description": [
       "<strong>1. Philosophy Building:</strong><br>Located within the left 70 to right 10 degree range of our viewpoint, the Philosophy Building is a striking structure that immediately catches the eye. Its facade is composed of gray bricks, giving it a solid and timeless appearance. The red window frames provide a vibrant contrast to the gray bricks, adding a touch of color and character to the building. This building is approximately 10 to 30 meters away from us, making it quite prominent in the scene. Surrounding the Philosophy Building, you can see a highway footway, which adds to the accessibility and connectivity of the area.<br>"
     ]
@@ -406,7 +423,7 @@
     "id": 1750837478661,
     "title": "PKU Example",
     "image_src": "../img/pku/1750837478661_annotated.jpg",
-    "map_src": "../maps/pku/1750837478661.html",
+    "map_src": "../maps/pku/1750837478661_outline_paired.html",
     "description": [
       "<strong>1. **Boya Tower:**:</strong><br>   Located within the left 10 to right 10 degree range of our view, the Boya Tower is a striking multi-story traditional pagoda structure. Its intricate design features multiple tiers, each adorned with gracefully upturned eaves, typical of classical East Asian architecture. The tower&#x27;s exterior is a harmonious blend of rich reds and earthy browns, with ornate detailing that captures the eye. Standing approximately 20 meters away from us, the Boya Tower is a prominent and captivating feature in the scene, embodying both cultural heritage and architectural elegance.<br>"
     ]
@@ -415,7 +432,7 @@
     "id": 1750837515506,
     "title": "PKU Example",
     "image_src": "../img/pku/1750837515506_annotated.jpg",
-    "map_src": "../maps/pku/1750837515506.html",
+    "map_src": "../maps/pku/1750837515506_outline_paired.html",
     "description": [
       "<strong>1. Weiming Lake:</strong><br>Located from the center to the right at a 30-degree angle, Weiming Lake is a large and serene body of water. The lake&#x27;s surface is adorned with gentle ripples, creating a mesmerizing pattern that reflects the surrounding scenery. It is approximately 20 meters away from our current viewpoint, offering a tranquil and picturesque element to the landscape.<br>"
     ]
@@ -424,7 +441,7 @@
     "id": 1750837585761,
     "title": "PKU Example",
     "image_src": "../img/pku/1750837585761_annotated.jpg",
-    "map_src": "../maps/pku/1750837585761.html",
+    "map_src": "../maps/pku/1750837585761_outline_paired.html",
     "description": [
       "<strong>1. Gymnasium No. 1:</strong><br>Located from the left 70 to left 30 degree angle in the scene, Gymnasium No. 1 is a prominent multi-story building visible in the background. Its structure is likely composed of modern materials, giving it a sleek and functional appearance. The gymnasium stands approximately 100 meters away from our current viewpoint, providing a distant yet clear view of its impressive stature.<br>",
       "<strong>2. East Playground:</strong><br>Situated directly in front of us, spanning from the left 30 to right 30 degree angle, the East Playground features a vibrant soccer field with green artificial turf. This area is much closer, approximately 10 meters away, allowing us to easily observe the well-maintained field and its inviting, lush green surface. The playground is a central and lively part of the scene, perfect for recreational activities.<br>"
@@ -434,7 +451,7 @@
     "id": 1750837744123,
     "title": "PKU Example",
     "image_src": "../img/pku/1750837744123_annotated.jpg",
-    "map_src": "../maps/pku/1750837744123.html",
+    "map_src": "../maps/pku/1750837744123_outline_paired.html",
     "description": [
       "<strong>1. Lui Che Woo Building:</strong><br>Located from the left 70 to right 10 degree angle of our viewpoint, the Lui Che Woo Building is a prominent multi-story structure. Its facade proudly displays the name &#x27;LUI CHE WOO BUILDING,&#x27; making it easily identifiable. The building is approximately 10 to 20 meters away from us, giving us a clear view of its impressive height and modern design. Adjoining the building, you can see a highway footway, which adds to the urban landscape. Additionally, within the building, there is a Luckin Coffee, a popular spot for grabbing a quick coffee or snack.<br>"
     ]
