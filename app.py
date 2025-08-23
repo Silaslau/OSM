@@ -121,6 +121,27 @@ def _ensure_username_column(conn):
     except Exception as e:
         print(f"[WARN] ensure username column failed: {e}")
 
+def _ensure_matching_column(conn):
+    """为 feedback 表增加 matching 列（幂等）。
+    - PostgreSQL: 使用 IF NOT EXISTS。
+    - SQLite: 直接尝试 ADD COLUMN，若已存在则忽略错误。
+    """
+    try:
+        if DATABASE_URL and psycopg2 is not None:
+            with conn.cursor() as cur:
+                cur.execute("ALTER TABLE feedback ADD COLUMN IF NOT EXISTS matching TEXT")
+                conn.commit()
+        else:
+            cur = conn.cursor()
+            try:
+                cur.execute("ALTER TABLE feedback ADD COLUMN matching TEXT")
+                conn.commit()
+            except Exception:
+                # 已存在列时忽略
+                pass
+    except Exception as e:
+        print(f"[WARN] ensure matching column failed: {e}")
+
 # 初始化表（分别支持 PG 与 SQLite）
 def init_db():
     """初始化数据库表结构。
@@ -138,6 +159,7 @@ def init_db():
                         completeness TEXT,
                         correctness TEXT,
                         accuracy TEXT,
+                        matching TEXT,
                         username TEXT
                     )
                 ''')
@@ -146,6 +168,8 @@ def init_db():
             _pg_migrate_example_id_bigint(conn)
             # 确保存在 username 列
             _ensure_username_column(conn)
+            # 确保存在 matching 列
+            _ensure_matching_column(conn)
     else:
         # SQLite
         conn = get_db()
@@ -157,12 +181,15 @@ def init_db():
                 completeness TEXT,
                 correctness TEXT,
                 accuracy TEXT,
+                matching TEXT,
                 username TEXT
             )
         ''')
         conn.commit()
         # 旧表无 username 时补充
         _ensure_username_column(conn)
+        # 旧表无 matching 时补充
+        _ensure_matching_column(conn)
         conn.close()
 
 # 插入数据
@@ -204,6 +231,7 @@ def save_data():
         correctness = item.get('correctness')
         accuracy = item.get('accuracy')
         username = item.get('username')
+        matching = item.get('matching')
         
         if example_id is None:
             print(f"[WARN] 跳过一条因缺少 example_id 的记录: {item}")
@@ -214,18 +242,18 @@ def save_data():
             with get_db() as conn:
                 with conn.cursor() as cur:
                     cur.execute('''
-                        INSERT INTO feedback (example_id, completeness, correctness, accuracy, username)
-                        VALUES (%s, %s, %s, %s, %s)
-                    ''', (example_id, completeness, correctness, accuracy, username))
+                        INSERT INTO feedback (example_id, completeness, correctness, accuracy, matching, username)
+                        VALUES (%s, %s, %s, %s, %s, %s)
+                    ''', (example_id, completeness, correctness, accuracy, matching, username))
                     conn.commit()
         else:
             # SQLite
             conn = get_db()
             cur = conn.cursor()
             cur.execute('''
-                INSERT INTO feedback (example_id, completeness, correctness, accuracy, username)
-                VALUES (?, ?, ?, ?, ?)
-            ''', (example_id, completeness, correctness, accuracy, username))
+                INSERT INTO feedback (example_id, completeness, correctness, accuracy, matching, username)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ''', (example_id, completeness, correctness, accuracy, matching, username))
             conn.commit()
             conn.close()
     
@@ -401,6 +429,6 @@ if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
     
-    # PORT=8000 python3 app.py                                            
-    # http://127.0.0.1:8000/osm_simple
-    # http://127.0.0.1:8000
+    # PORT=9000 python3 app.py                                            
+    # http://127.0.0.1:9000/osm_simple
+    # http://127.0.0.1:9000
