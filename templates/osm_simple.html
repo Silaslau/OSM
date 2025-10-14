@@ -46,7 +46,7 @@
         The goal of our model is to <strong> match each photo with the corresponding OpenStreetMap (OSM) elements </strong> as shown in the GIS map. Therefore, we only focus on <strong> OSM objects </strong> — those features that can also be observed on the map. 
       </p>
       <p>
-        In this evaluation, there are <strong> five </strong> examples. Each example features two pictures and a corresponding text description:
+        In this evaluation, there are <strong> ten </strong> examples. Each example features two pictures and a corresponding text description:
       </p>
       <ul>
         <li>
@@ -236,9 +236,9 @@
         const allCases = await resp.json();
         if (!Array.isArray(allCases) || allCases.length === 0) return;
 
-        // 打乱并仅展示 5 个（保持与 osm.html 一致）
+        // 打乱并仅展示 10 个（保持与 osm.html 一致）
         shuffleArray(allCases);
-        const subset = allCases.slice(0, Math.min(5, allCases.length));
+        const subset = allCases.slice(0, Math.min(10, allCases.length));
 
         const root = document.getElementById('cards-root');
         subset.forEach(c => {
