@@ -61,6 +61,8 @@ python3 scripts/auto_add_cases.py --img-subdir bj_0521 --overwrite
 
 # 添加北大案例
 python3 scripts/auto_add_cases.py --img-subdir pku --overwrite
+
+python3 scripts/auto_add_cases.py --img-subdir sh_0724 --overwrite
 ```
 
 ### 高级使用

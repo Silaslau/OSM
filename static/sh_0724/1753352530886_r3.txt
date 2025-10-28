@@ -1,0 +1,21 @@
+Welcome, everyone! Today, we are exploring a fascinating scene in Shanghai, featuring some remarkable buildings and features. Let me guide you through this visual journey with detailed descriptions of each element you can see.
+
+1. **Shanghai Exhibition Centre:**
+   - **Location:** Positioned between the left 70 to left 30-degree angle from our viewpoint.
+   - **Key Visual Characteristics:** This tall building is distinguished by its blue windows and white structure, creating a striking contrast that catches the eye.
+   - **Approximate Distance:** It is approximately 100 meters away from us.
+   - **Adjoining Features:** There is another building adjacent to the Shanghai Exhibition Centre, adding to the architectural complexity of the scene.
+
+2. **Shanghai Center (left side):**
+   - **Location:** Situated between the left 10 to right 10-degree angle from our viewpoint.
+   - **Key Visual Characteristics:** The building features horizontal lines and balconies, giving it a modern and dynamic appearance.
+   - **Approximate Distance:** It is approximately 20 meters away from us.
+   - **Inclusive Nodes:** This part of the Shanghai Center includes several well-known establishments such as Starbucks, 城市超市 (City Supermarket), Ritz Bar, Din Tai Fung, Baker&Spice, Pure & Whole, Beef & Liberty, Miu Miu, Paul & Shark, and Manner Coffee.
+
+3. **Shanghai Center (right side):**
+   - **Location:** Positioned between the right 10 to right 30-degree angle from our viewpoint.
+   - **Key Visual Characteristics:** Similar to the left side, this section of the Shanghai Center also features horizontal lines and balconies, maintaining a cohesive architectural style.
+   - **Approximate Distance:** It is approximately 20 meters away from us.
+   - **Inclusive Nodes:** This side of the Shanghai Center includes the same establishments as the left side, such as Starbucks, 城市超市 (City Supermarket), Ritz Bar, Din Tai Fung, Baker&Spice, Pure & Whole, Beef & Liberty, Miu Miu, Paul & Shark, and Manner Coffee.
+
+I hope these descriptions help you visualize the scene and understand the layout of these impressive buildings. Enjoy your exploration of Shanghai!
